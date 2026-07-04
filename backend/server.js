@@ -55,7 +55,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public'))); 
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/kikoDB')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/kikoDB')
     .then(async () => {
         console.log('MongoDB Connected to Express Server');
         const { syncProductRatings } = require('./utils/ratingSync');
@@ -70,7 +70,7 @@ app.use(session({
     resave: false, 
     saveUninitialized: false, 
     store: MongoStore.create({ 
-        mongoUrl: 'mongodb://127.0.0.1:27017/kikoDB' 
+        mongoUrl: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/kikoDB' 
     }),
     cookie: { 
         maxAge: 1000 * 60 * 60 * 24, // 1 day
@@ -152,8 +152,12 @@ app.use('/', authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/', ecommerceRoutes);
 
-// Start Server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Kiko Milano Server is running at http://localhost:${PORT}`);
-});
+// Start Server (only listen if run directly, not in Vercel serverless functions)
+const PORT = process.env.PORT || 3000;
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Kiko Milano Server is running at http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;

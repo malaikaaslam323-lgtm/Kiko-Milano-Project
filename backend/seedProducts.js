@@ -3,7 +3,7 @@ const Product = require('./models/Product');
 require('dotenv').config();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/kikoDB')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/kikoDB')
     .then(() => console.log('MongoDB Connected to Product Seeder...'))
     .catch(err => console.log('Database connection error:', err));
 
