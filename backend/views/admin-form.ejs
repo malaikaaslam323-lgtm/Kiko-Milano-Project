@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product ? 'Edit Product' : 'Add New Product' %> - KIKO MILANO</title>
+    
+    <link rel="stylesheet" href="/admin.css?v=1.1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+    <div class="admin-top-bar">
+        <span>KIKO MILANO BACK OFFICE &bull; <%= product ? 'EDITING PRODUCT' : 'NEW ENTRY' %></span>
+    </div>
+
+    <header class="admin-site-header">
+        <div class="header-container">
+            <div class="header-side-left">
+                <span class="admin-badge-indicator">SYSTEM ADMIN</span>
+            </div>
+            
+            <div class="admin-logo">
+                <img src="/Logo.webp" alt="KIKO Milano">
+            </div>
+
+            <div class="header-side-right">
+                <a href="/admin" class="return-store-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    BACK TO DASHBOARD
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="form-wrapper">
+        <div class="form-container">
+            <h2><%= product ? 'EDIT PRODUCT' : 'ADD NEW PRODUCT' %></h2>
+            
+            <% if (error_msg && error_msg.length > 0) { %>
+                <div class="alert alert-error" style="background-color: #ffe6e6; color: #cc0000; padding: 15px; text-align: center; margin-bottom: 25px; border-radius: 4px; font-weight: 600;">
+                    <%= error_msg %>
+                </div>
+            <% } %>
+
+            <form action="<%= product ? '/admin/product/edit/' + product._id : '/admin/product/add' %>" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" name="name" value="<%= product ? product.name : '' %>" placeholder="e.g. 3D Hydra Lipgloss" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Price (PKR) *</label>
+                    <input type="number" name="price" value="<%= product ? product.price : '' %>" placeholder="6210" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select name="category" required>
+                        <option value="LIPS" <%= product && product.category === 'LIPS' ? 'selected' : '' %>>LIPS</option>
+                        <option value="EYES" <%= product && product.category === 'EYES' ? 'selected' : '' %>>EYES</option>
+                        <option value="FACE" <%= product && product.category === 'FACE' ? 'selected' : '' %>>FACE</option>
+                        <option value="SKIN CARE" <%= product && product.category === 'SKIN CARE' ? 'selected' : '' %>>SKIN CARE</option>
+                        <option value="ACCESSORIES" <%= product && product.category === 'ACCESSORIES' ? 'selected' : '' %>>ACCESSORIES</option>
+                        <option value="HAIR" <%= product && product.category === 'HAIR' ? 'selected' : '' %>>HAIR</option>
+                        <option value="FRAGRANCE" <%= product && product.category === 'FRAGRANCE' ? 'selected' : '' %>>FRAGRANCE</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Stock Quantity *</label>
+                    <input type="number" name="stock" value="<%= product ? product.stock : '10' %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Description</label>
+                    <textarea name="description" rows="4" placeholder="Describe the product features..."><%= product ? product.description : '' %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Shades (Comma-separated, e.g. 01 Ray, 02 Glow)</label>
+                    <input type="text" name="shades" value="<%= product && product.shades ? product.shades.join(', ') : '' %>" placeholder="01 Ray, 02 Glow">
+                </div>
+
+                <div class="form-group">
+                    <label>Product Ingredients</label>
+                    <textarea name="ingredients" rows="4" placeholder="AQUA, DIMETHICONE, TOCOPHEROL..."><%= product ? product.ingredients : '' %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Image <%= product ? '(Leave blank to keep current)' : '*' %></label>
+                    <input type="file" name="image" accept="image/*" <%= product ? '' : 'required' %> style="padding: 10px; background: #fff;">
+                </div>
+
+                <button type="submit" class="btn-submit"><%= product ? 'UPDATE PRODUCT' : 'SAVE PRODUCT' %></button>
+                <a href="/admin" class="cancel-link">Discard Changes and Return</a>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

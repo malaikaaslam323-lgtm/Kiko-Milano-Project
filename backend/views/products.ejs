@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIKO MILANO - Full Catalog</title>
+    <link rel="stylesheet" href="/first.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 1. HEADER & NAVIGATION -->
+    <div class="top-bar">
+        <div class="top-left"><div class="loc"><img src="/Icon_5.png" alt="Location"><span>STORES</span></div></div>
+        <div class="top-center"><p>Dial our UAN 042-111-70-80-90 for inquiries.</p></div>
+        <div class="top-right"><span>PAK | EN &#127477;&#127472;</span></div>
+    </div>
+
+    <header class="site-header">
+        <div class="header-middle">
+            <div class="header-left">
+                <form action="/products" method="GET" class="main-search-form">
+                    <span class="search-icon" style="font-size: 22px; font-weight: bold; margin-right: 15px; color: #111;">&#128269;&#xFE0E;</span>
+                    <input type="text" name="search" placeholder="Search a product ..." value="<%= searchQuery.search || '' %>" class="main-search-input">
+                    <% if (searchQuery.category) { %><input type="hidden" name="category" value="<%= searchQuery.category %>"><% } %>
+                </form>
+            </div>
+            <div class="logo">
+                <a href="/" style="text-decoration: none; color: inherit;">
+                    <img src="/Logo.webp" alt="KIKO Milano" style="height: 50px; width: auto;" onerror="this.src=''">
+                </a>
+            </div>
+           <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
+                
+                  <% if (currentUser) { %>
+                      <% if (typeof userRole !== 'undefined' && userRole && userRole.toLowerCase() === 'admin') { %>
+                          <a href="/admin" style="text-decoration: none; color: #ff1493; font-size: 12px; font-weight: 700; margin-right: 10px;">ADMIN PANEL</a>
+                      <% } else { %>
+                          <a href="/dashboard" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600; margin-right: 10px;">DASHBOARD</a>
+                          <a href="/my-account" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600; margin-right: 10px;">MY ACCOUNT</a>
+                      <% } %>
+                      <a href="/logout" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600;">LOGOUT</a>
+                 <% } else { %>
+                     <a href="/login" style="text-decoration: none; color: black; display: flex; align-items: center; gap: 5px;">
+                         <span class="icon">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                         </span>
+                     </a>
+                 <% } %>
+                 
+                  <a href="/favorites" class="cart-icon-container" style="text-decoration: none; color: inherit; position: relative; display: flex; align-items: center;">
+                      <span class="icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                      </span>
+                      <span class="cart-badge fav-badge" style="background-color: #ff1493;"><%= typeof favoritesCount !== 'undefined' ? favoritesCount : 0 %></span>
+                  </a> 
+                 
+                 <a href="/cart" class="cart-icon-container" style="position: relative; display: flex; align-items: center; text-decoration: none; color: inherit;">
+                     <span class="icon">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                     </span> 
+                     <span class="cart-badge" style="top: -5px; right: -8px;"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+                 </a></div>
+
+            </div>
+        </div>
+
+        <nav class="navbar" style="background-color: #fce4ec;">
+            <div class="hamburger" id="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+            <div class="nav-links" id="navLinks">
+                <a href="/products">ALL MAKE UP</a>
+                <a href="/products?category=FACE">FACE</a>
+                <a href="/products?category=LIPS">LIPS</a>
+                <a href="/products?category=EYES">EYES</a>
+                <a href="/products?category=SKIN CARE">SKIN CARE</a>
+                <a href="/products?category=ACCESSORIES">ACCESSORIES</a>
+                <a href="/products?category=HAIR">HAIR</a>
+                <a href="/products?category=FRAGRANCE">FRAGRANCE</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 2. PRODUCT GRID -->
+    <section class="bestsellers" style="background-color: transparent; padding-top: 50px;">
+        <div class="product-grid">
+            <% if (products.length === 0) { %>
+                <div style="grid-column: span 4; text-align: center; padding: 80px 0;">
+                    <h3 style="font-family: 'Montserrat', sans-serif; font-weight: 400; color: #555;">No products found matching your criteria.</h3>
+                </div>
+            <% } else { %>
+                 <% products.forEach(function(product) { %>
+                     <div class="kiko-product-card" style="display: flex; flex-direction: column;">
+                         <a href="/products/<%= product._id %>" style="text-decoration: none; color: inherit; display: block;">
+                              <div class="kiko-image-container">
+                                  <% if (product.reviewsCount && product.reviewsCount > 0 && product.rating >= 4.8) { %><span class="kiko-badge">TOP RATED</span><% } %>
+                                  <img src="/<%= product.image %>" alt="<%= product.name %>" onerror="this.src='/Logo.webp'">
+                              </div>
+                          </a>
+                          <div class="kiko-product-info" style="display: flex; flex-direction: column; flex-grow: 1;">
+                              <a href="/products/<%= product._id %>" style="text-decoration: none; color: inherit;">
+                                  <h4 class="kiko-title"><%= product.name %></h4>
+                                  <p class="kiko-price">PKR <%= product.price.toLocaleString() %></p>
+                              </a>
+                              <div class="kiko-rating" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; font-size: 11px;">
+                                  <div>
+                                      <% if (product.reviewsCount && product.reviewsCount > 0) { %>
+                                          <span style="color: #ff1493; font-weight: 700;"><%= product.rating.toFixed(1) %>/5</span>
+                                          <span style="color: #ff1493;">
+                                              <% for(let i = 1; i <= 5; i++) { %>
+                                                  <%= i <= Math.round(product.rating) ? '★' : '☆' %>
+                                              <% } %>
+                                          </span>
+                                          <span>(<%= product.reviewsCount %>)</span>
+                                      <% } else { %>
+                                          <span style="color: #888;">No Reviews Yet</span>
+                                      <% } %>
+                                  </div>
+                                  <span style="color: #888;">(<%= product.stock %> left)</span>
+                              </div>
+                             
+                             <div class="card-action" style="justify-content: center; margin-top: auto; gap: 15px;">
+                                 <form action="/cart/add" method="POST" class="ajax-cart-form" style="margin: 0; display: inline;">
+                                     <input type="hidden" name="productId" value="<%= product._id %>">
+                                     <input type="hidden" name="quantity" value="1">
+                                     <button type="submit" class="btn-secondary" style="margin: 0; width: auto; float: none;" <%= product.stock <= 0 ? 'disabled' : '' %>><%= product.stock > 0 ? 'ADD TO BAG' : 'OUT OF STOCK' %></button>
+                                 </form>
+                                 <span class="like-icon <%= typeof favoritesList !== 'undefined' && favoritesList.includes(product._id.toString()) ? 'liked' : '' %>" data-product-id="<%= product._id %>"><%- typeof favoritesList !== 'undefined' && favoritesList.includes(product._id.toString()) ? '&#9829;' : '&#9825;' %></span>
+                             </div>
+                         </div>
+                     </div>
+                 <% }); %>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- 3. NEW: BOTTOM PILL FILTER & SORT -->
+    <div class="kiko-bottom-actions-wrapper">
+        <div class="kiko-action-pill">
+            <button type="button" class="kiko-pill-btn" id="toggleFiltersBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M1 14h6m2-6h6m2 8h6"></path></svg>
+                FILTERS
+            </button>
+            <div class="pill-divider"></div>
+            <button type="button" class="kiko-pill-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"></path></svg>
+                SORT BY
+            </button>
+        </div>
+
+        <div class="kiko-filter-popup" id="kikoFilterPopup">
+            <form action="/products" method="GET">
+                <% if (searchQuery.search) { %><input type="hidden" name="search" value="<%= searchQuery.search %>"><% } %>
+                <% if (searchQuery.category) { %><input type="hidden" name="category" value="<%= searchQuery.category %>"><% } %>
+
+                <div class="filter-cards-container">
+                    <!-- Rating Card -->
+                    <div class="filter-card">
+                        <div class="filter-card-header">
+                            <h4>AVERAGE RATING</h4>
+                            <a href="/products">Clear</a>
+                        </div>
+                        <label class="filter-check"><input type="radio" name="rating" value="4" <%= searchQuery.rating == '4' ? 'checked' : '' %>> <span>★★★★☆ 4/5 & up</span></label>
+                        <label class="filter-check"><input type="radio" name="rating" value="3" <%= searchQuery.rating == '3' ? 'checked' : '' %>> <span>★★★☆☆ 3/5 & up</span></label>
+                        <label class="filter-check"><input type="radio" name="rating" value="2" <%= searchQuery.rating == '2' ? 'checked' : '' %>> <span>★★☆☆☆ 2/5 & up</span></label>
+                        <label class="filter-check"><input type="radio" name="rating" value="1" <%= searchQuery.rating == '1' ? 'checked' : '' %>> <span>★☆☆☆☆ 1 & up</span></label>
+                    </div>
+
+                    <!-- Price Card -->
+                    <div class="filter-card">
+                        <div class="filter-card-header">
+                            <h4>PRICE</h4>
+                            <a href="/products">Clear</a>
+                        </div>
+                        <div class="price-inputs">
+                            <input type="number" name="minPrice" placeholder="Min" value="<%= searchQuery.minPrice || '' %>">
+                            <span>to</span>
+                            <input type="number" name="maxPrice" placeholder="Max" value="<%= searchQuery.maxPrice || '' %>">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW: BOTTOM ACTION BUTTONS -->
+                <div class="kiko-popup-bottom-bar">
+                    <a href="/products" class="popup-clear-btn">CLEAR ALL</a>
+                    <button type="submit" class="popup-view-btn">VIEW RESULTS</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. PAGINATION -->
+    <div style="text-align: center; margin: 20px 0 80px 0; font-family: 'Montserrat', sans-serif;">
+        <% if (currentPage > 1) { %>
+            <a href="/products?page=<%= currentPage - 1 %>&search=<%= searchQuery.search || '' %>&category=<%= searchQuery.category || '' %>&minPrice=<%= searchQuery.minPrice || '' %>&maxPrice=<%= searchQuery.maxPrice || '' %>&rating=<%= searchQuery.rating || '' %>" class="popup-view-btn" style="text-decoration: none; margin-right: 15px;">&laquo; PREV</a>
+        <% } %>
+        <span style="font-size: 14px; font-weight: 600; letter-spacing: 2px; margin: 0 15px;">PAGE <%= currentPage %> OF <%= totalPages %></span>
+        <% if (currentPage < totalPages) { %>
+            <a href="/products?page=<%= currentPage + 1 %>&search=<%= searchQuery.search || '' %>&category=<%= searchQuery.category || '' %>&minPrice=<%= searchQuery.minPrice || '' %>&maxPrice=<%= searchQuery.maxPrice || '' %>&rating=<%= searchQuery.rating || '' %>" class="popup-view-btn" style="text-decoration: none; margin-left: 15px;">NEXT &raquo;</a>
+        <% } %>
+    </div>
+
+    <!-- 5. FOOTER -->
+    <section class="deliver">
+        <div class="deliver-container">
+            <div class="deliver-item"><img src="/truck.png" alt="FREE SHIPPING" onerror="this.src='/Logo.webp'"><p>FREE SHIPPING OVER ORDERS OF 50,000 PKR</p></div>
+            <div class="deliver-item"><img src="/lipsLogo.png" alt="SECURE PAYMENT" onerror="this.src='/Logo.webp'"><p>SECURE PAYMENT PURCHASES ARE SECURE AND GUARANTEED</p></div>
+            <div class="deliver-item"><img src="/orderLogo.png" alt="EASY EXCHANGE" onerror="this.src='/Logo.webp'"><p>EASY EXCHANGE UPTO 7 DAYS AFTER DELIVERY</p></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-col">
+                <h4>HELP & SUPPORT</h4>
+                <ul><li><a href="#">Track Order</a></li><li><a href="#">Returns & Refunds</a></li><li><a href="#">Store Locator</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>ABOUT KIKO</h4>
+                <ul><li><a href="/contact-us">Contact Us</a></li><li><a href="#">Our Brand</a></li><li><a href="#">Press Releases</a></li><li><a href="#">Store Locations</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>JOIN OUR NEWSLETTER</h4>
+                <p>Sign up to get the latest beauty news and offers.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" class="email-input">
+                    <button class="btn-primary subscribe-btn">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GUARANTEED JAVASCRIPT -->
+    <script src="/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('toggleFiltersBtn');
+            const popupMenu = document.getElementById('kikoFilterPopup');
+            
+            if(toggleBtn && popupMenu) {
+                toggleBtn.addEventListener('click', function() {
+                    popupMenu.classList.toggle('active');
+                });
+            }
+
+            // AJAX Cart Additions
+            document.querySelectorAll('.ajax-cart-form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button');
+                    const originalText = btn.textContent;
+                    btn.disabled = true;
+                    btn.textContent = 'ADDING...';
+
+                    const formData = new URLSearchParams(new FormData(form));
+                    fetch('/cart/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            btn.textContent = 'ADDED!';
+                            btn.style.backgroundColor = '#1a7f37';
+                            btn.style.borderColor = '#1a7f37';
+                            
+                            document.querySelectorAll('.cart-badge').forEach(badge => {
+                                badge.textContent = data.cartCount;
+                            });
+
+                            setTimeout(() => {
+                                btn.disabled = false;
+                                btn.textContent = originalText;
+                                btn.style.backgroundColor = 'black';
+                                btn.style.borderColor = 'black';
+                            }, 1500);
+                        } else {
+                            alert(data.message || 'Error adding.');
+                            btn.disabled = false;
+                            btn.textContent = originalText;
+                        }
+                    })
+                    .catch(err => {
+                        btn.disabled = false;
+                        btn.textContent = originalText;
+                        form.submit(); // fallback
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

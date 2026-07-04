@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Customers - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+
+    <div class="admin-top-bar">
+        <span>KIKO MILANO BACK OFFICE &bull; CENTRAL CONTROL PANEL</span>
+    </div>
+
+    <header class="admin-site-header">
+        <div class="header-container">
+            <div class="header-side-left">
+                <span class="admin-badge-indicator">SYSTEM ADMIN</span>
+            </div>
+            
+            <div class="admin-logo">
+                <img src="/Logo.webp" alt="KIKO Milano">
+            </div>
+
+            <div class="header-side-right">
+                <a href="/admin" class="return-store-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    BACK TO DASHBOARD
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-action-bar">
+        <div class="title-block">
+            <h1>REGISTERED CUSTOMERS</h1>
+            <p>VIEW CUSTOMER ACCOUNTS & PLATFORM ENGAGEMENT</p>
+        </div>
+    </div>
+
+    <!-- Sub-Navigation Navigation Bar -->
+    <div style="max-width: 1400px; margin: 10px auto 30px auto; padding: 0 50px; overflow-x: auto;">
+        <div style="display: flex; gap: 10px; border-bottom: 2px solid #eaeaea; padding-bottom: 15px; min-width: max-content;">
+            <a href="/admin" class="admin-nav-btn">PRODUCTS INVENTORY</a>
+            <a href="/admin/orders" class="admin-nav-btn">ORDER MANAGEMENT</a>
+            <a href="/admin/users" class="admin-nav-btn" style="background-color: #000; color: #fff;">REGISTERED CUSTOMERS</a>
+            <a href="/admin/newsletter" class="admin-nav-btn">NEWSLETTER & CAMPAIGNS</a>
+            <a href="/admin/reviews" class="admin-nav-btn">PRODUCT REVIEWS</a>
+            <a href="/admin/sales" class="admin-nav-btn">LIVE SALES METRICS</a>
+        </div>
+    </div>
+
+    <!-- Users Management List Table -->
+    <div class="table-container">
+        <% if (users.length === 0) { %>
+            <div style="background: #fff; padding: 50px; text-align: center; border-radius: 8px; border: 1px solid #eaeaea; color: #666; font-size: 14px;">
+                No customer accounts are registered yet.
+            </div>
+        <% } else { %>
+            <div style="background: #fff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 10px 40px rgba(0,0,0,0.03); overflow: hidden;">
+                <table class="admin-table" style="box-shadow: none; border-radius: 0;">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Email Address</th>
+                            <th>Registration Date</th>
+                            <th>Order Count</th>
+                            <th>Status Footprint</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td style="font-weight: 700; color: #111;"><%= user.name %></td>
+                                <td style="font-weight: 600;"><%= user.email %></td>
+                                <td style="color: #666; font-size: 12px;">
+                                    <%= new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                </td>
+                                <td style="font-weight: 700; color: #222;"><%= user.orderCount %> orders</td>
+                                <td>
+                                    <span style="font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 50px;">
+                                        Active
+                                    </span>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+
+</body>
+</html>

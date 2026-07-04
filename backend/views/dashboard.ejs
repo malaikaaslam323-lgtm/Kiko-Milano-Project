@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/first.css">
+    <link rel="stylesheet" href="/ecommerce.css">
+</head>
+<body>
+
+    <!-- Header Partial -->
+    <%- include('partials/header') %>
+
+    <div class="dashboard-wrapper">
+        
+        <!-- Alerts -->
+        <div style="max-width: 1200px; margin: 0 auto 30px auto;">
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="flash-msg flash-success"><%= success_msg %></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+                <div class="flash-msg flash-error"><%= error_msg %></div>
+            <% } %>
+        </div>
+
+        <!-- Post-Checkout Success Card -->
+        <% if (typeof newOrderId !== 'undefined' && newOrderId) { %>
+            <% const matchedOrder = orders.find(o => o._id.toString() === newOrderId.toString()); %>
+            <% if (matchedOrder) { %>
+                <div class="order-success-card">
+                    <div class="success-icon-check">✓</div>
+                    <h2>ORDER SUCCESSFULLY PLACED</h2>
+                    <p class="success-message">Thank you for your purchase! Your order is being processed. A confirmation detail summary is listed below.</p>
+                    
+                    <div class="success-grid">
+                        <div class="success-detail-box">
+                            <span class="detail-label">ORDER NUMBER</span>
+                            <span class="detail-val" style="font-family: monospace;">#<%= matchedOrder._id.toString().substring(0, 8).toUpperCase() %></span>
+                        </div>
+                        <div class="success-detail-box">
+                            <span class="detail-label">ESTIMATED DELIVERY</span>
+                            <span class="detail-val">3 - 5 Business Days</span>
+                        </div>
+                        <div class="success-detail-box">
+                            <span class="detail-label">TOTAL PAID</span>
+                            <span class="detail-val">PKR <%= matchedOrder.totalAmount.toLocaleString() %></span>
+                        </div>
+                    </div>
+
+                    <div class="success-summary-list">
+                        <h4>Items Summary</h4>
+                        <% matchedOrder.items.forEach(item => { %>
+                            <div class="success-item-row">
+                                <span class="item-name"><%= item.product ? item.product.name : 'Unknown Product' %> <strong style="color: #ff1493;">x<%= item.quantity %></strong></span>
+                                <span class="item-total">PKR <%= (item.price * item.quantity).toLocaleString() %></span>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+
+        <div class="dashboard-layout">
+            <!-- Left: Sidebar / Dashboard Navigation -->
+            <div class="dashboard-sidebar">
+                <div style="text-align: center;">
+                    <div class="dashboard-avatar">
+                        <%= user.name.charAt(0).toUpperCase() %>
+                    </div>
+                    <h3 class="dashboard-username"><%= user.name %></h3>
+                    <p class="dashboard-email"><%= user.email %></p>
+                    
+                    <div style="border-top: 1px solid #eee; margin-top: 25px; padding-top: 25px;">
+                        <a href="/my-account" class="dashboard-action-link">MANAGE PROFILE & SECURITY</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Content Area (Tracking & Order History) -->
+            <div class="dashboard-content-area">
+                
+                <!-- Dynamic Order Tracking Card -->
+                <div class="dashboard-card" id="tracking-card" style="display: none;">
+                    <div class="order-detail-header">
+                        <h2 class="checkout-section-title" style="margin: 0;">ORDER TRACKING</h2>
+                        <span class="order-detail-id" id="tracking-order-id">#ORDER-ID</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: #666; margin-bottom: 25px;">
+                        <span>Placed: <strong id="tracking-order-date">--</strong></span>
+                        <span>Total: <strong id="tracking-order-total" style="color: #ff1493;">PKR --</strong></span>
+                    </div>
+
+                    <!-- Visual Progress Bar -->
+                    <div class="order-tracking-bar">
+                        <div class="tracking-progress-fill" id="tracking-bar-fill" style="width: 0%;"></div>
+                        
+                        <div class="tracking-step" id="step-Pending">
+                            <div class="step-node">1</div>
+                            <div class="step-label">Pending</div>
+                        </div>
+                        <div class="tracking-step" id="step-Processing">
+                            <div class="step-node">2</div>
+                            <div class="step-label">Processing</div>
+                        </div>
+                        <div class="tracking-step" id="step-Shipped">
+                            <div class="step-node">3</div>
+                            <div class="step-label">Shipped</div>
+                        </div>
+                        <div class="tracking-step" id="step-Delivered">
+                            <div class="step-node">4</div>
+                            <div class="step-label">Delivered</div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Order Items list -->
+                    <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 30px;">
+                        <h4 style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; color: #222;">Order Details</h4>
+                        <div id="tracking-order-items">
+                            <!-- Items populated dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order History (Clean Grid Card Layout) -->
+                <div>
+                    <h2 class="checkout-section-title" style="margin-bottom: 25px;">ORDER HISTORY</h2>
+
+                    <% if (orders.length === 0) { %>
+                        <div class="dashboard-card" style="text-align: center; padding: 50px 20px; color: #666; font-size: 14px; font-weight: 500;">
+                            No orders placed yet.
+                        </div>
+                    <% } else { %>
+                        <div class="orders-grid">
+                            <% orders.forEach(order => { %>
+                                <div class="order-item-card order-row-btn" 
+                                     data-id="<%= order._id %>"
+                                     data-short-id="#<%= order._id.toString().substring(0, 8).toUpperCase() %>"
+                                     data-date="<%= new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>"
+                                     data-total="PKR <%= order.totalAmount.toLocaleString() %>"
+                                     data-status="<%= order.status %>"
+                                     data-items='[<%= order.items.map(item => {
+                                         const productObj = item.product ? {
+                                             name: item.product.name,
+                                             image: item.product.image,
+                                             price: item.price,
+                                             qty: item.quantity
+                                         } : {
+                                             name: "Unknown Product",
+                                             image: "Logo.webp",
+                                             price: item.price,
+                                             qty: item.quantity
+                                         };
+                                         return JSON.stringify(productObj);
+                                     }).join(",") %>]'>
+                                    
+                                    <div class="order-card-header">
+                                        <span class="order-card-id">#<%= order._id.toString().substring(0, 8).toUpperCase() %></span>
+                                        <span class="order-card-date"><%= new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+                                    </div>
+                                    
+                                    <div class="order-card-body">
+                                        <div class="order-card-metric">
+                                            <span class="metric-label">RECIPIENT</span>
+                                            <span class="metric-val"><%= order.recipientName || user.name %></span>
+                                        </div>
+                                        <div class="order-card-metric">
+                                            <span class="metric-label">TOTAL AMOUNT</span>
+                                            <span class="metric-val" style="font-weight: 800; color: #111;">PKR <%= order.totalAmount.toLocaleString() %></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="order-card-footer">
+                                        <span class="status-badge <%= order.status === 'Delivered' ? 'status-delivered' : 'status-processing' %>">
+                                            <%= order.status %>
+                                        </span>
+                                        <button class="order-track-btn">Track Order</button>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <%- include('partials/footer') %>
+
+    <!-- Dashboard Interactive Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const trackingCard = document.getElementById('tracking-card');
+            const trackingOrderId = document.getElementById('tracking-order-id');
+            const trackingOrderDate = document.getElementById('tracking-order-date');
+            const trackingOrderTotal = document.getElementById('tracking-order-total');
+            const trackingBarFill = document.getElementById('tracking-bar-fill');
+            const trackingOrderItems = document.getElementById('tracking-order-items');
+
+            // Maps statuses to progress bar widths
+            const statusMap = {
+                'Pending': 0,
+                'Processing': 33,
+                'Shipped': 66,
+                'Delivered': 100
+            };
+
+            // Updates the tracking component visual state
+            function showOrderTracking(orderData) {
+                trackingCard.style.display = 'block';
+                trackingOrderId.textContent = orderData.shortId;
+                trackingOrderDate.textContent = orderData.date;
+                trackingOrderTotal.textContent = orderData.total;
+
+                // Adjust progress bar
+                const fillWidth = statusMap[orderData.status] !== undefined ? statusMap[orderData.status] : 0;
+                trackingBarFill.style.width = fillWidth + '%';
+
+                // Update steps active flags
+                const statuses = ['Pending', 'Processing', 'Shipped', 'Delivered'];
+                const currentIndex = statuses.indexOf(orderData.status);
+                
+                statuses.forEach((status, idx) => {
+                    const stepEl = document.getElementById('step-' + status);
+                    if (stepEl) {
+                        if (idx <= currentIndex) {
+                            stepEl.classList.add('active');
+                        } else {
+                            stepEl.classList.remove('active');
+                        }
+                    }
+                });
+
+                // Populate items
+                trackingOrderItems.innerHTML = '';
+                const items = JSON.parse(orderData.items);
+                items.forEach(item => {
+                    const itemHtml = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; font-size: 13px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="/${item.image}" style="width: 40px; height: 40px; object-fit: contain; background: #fafafa; border-radius: 4px; border: 1px solid #eee;">
+                                <div>
+                                    <div style="font-weight: 700; text-transform: uppercase;">${item.name}</div>
+                                    <div style="font-size: 11px; color: #777; margin-top: 2px;">Qty: ${item.qty}</div>
+                                </div>
+                            </div>
+                            <span style="font-weight: 700;">PKR ${(item.price * item.qty).toLocaleString()}</span>
+                        </div>
+                    `;
+                    trackingOrderItems.insertAdjacentHTML('beforeend', itemHtml);
+                });
+
+                // Scroll to tracking card
+                trackingCard.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Click listener for history cards
+            document.querySelectorAll('.order-row-btn').forEach(row => {
+                row.addEventListener('click', (e) => {
+                    // Prevent active toggle if they click something else
+                    const orderData = {
+                        id: row.getAttribute('data-id'),
+                        shortId: row.getAttribute('data-short-id'),
+                        date: row.getAttribute('data-date'),
+                        total: row.getAttribute('data-total'),
+                        status: row.getAttribute('data-status'),
+                        items: row.getAttribute('data-items')
+                    };
+                    
+                    document.querySelectorAll('.order-item-card').forEach(c => c.classList.remove('selected-card'));
+                    row.classList.add('selected-card');
+                    
+                    showOrderTracking(orderData);
+                });
+            });
+
+            // Automatically open tracking for the most recent order if present and not immediately after checkout
+            <% if (typeof newOrderId === 'undefined' || !newOrderId) { %>
+                const firstRow = document.querySelector('.order-row-btn');
+                if (firstRow) {
+                    firstRow.click();
+                }
+            <% } %>
+        });
+    </script>
+
+</body>
+</html>

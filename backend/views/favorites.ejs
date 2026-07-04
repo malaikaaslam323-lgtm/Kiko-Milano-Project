@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Favorites - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/first.css">
+    <link rel="stylesheet" href="/ecommerce.css">
+</head>
+<body>
+
+    <!-- Header Partial -->
+    <%- include('partials/header') %>
+
+    <div class="cart-wrapper" style="min-height: 50vh;">
+        <h1 class="cart-title">Your Favorites</h1>
+
+        <!-- Alert messages -->
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="flash-msg flash-success"><%= success_msg %></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+                <div class="flash-msg flash-error"><%= error_msg %></div>
+            <% } %>
+        </div>
+
+        <% if (products.length === 0) { %>
+            <div class="empty-cart-message">
+                <h3>Your favorites list is currently empty.</h3>
+                <p style="color: #666; margin-bottom: 25px;">Start adding items you love to your favorites list by clicking the heart icons.</p>
+                <a href="/products" class="btn-primary" style="text-decoration: none; display: inline-block;">DISCOVER PRODUCTS</a>
+            </div>
+        <% } else { %>
+            <!-- PRODUCT GRID -->
+            <section class="bestsellers" style="background-color: transparent; padding: 20px 0 80px 0;">
+                <div class="product-grid">
+                     <% products.forEach(function(product) { %>
+                         <div class="kiko-product-card" style="display: flex; flex-direction: column;" id="fav-card-<%= product._id %>">
+                             <a href="/products/<%= product._id %>" style="text-decoration: none; color: inherit; display: block;">
+                                 <div class="kiko-image-container">
+                                      <% if (product.reviewsCount && product.reviewsCount > 0 && product.rating >= 4.8) { %><span class="kiko-badge">TOP RATED</span><% } %>
+                                      <img src="/<%= product.image %>" alt="<%= product.name %>" onerror="this.src='/Logo.webp'">
+                                  </div>
+                              </a>
+                              <div class="kiko-product-info" style="display: flex; flex-direction: column; flex-grow: 1;">
+                                  <a href="/products/<%= product._id %>" style="text-decoration: none; color: inherit;">
+                                      <h4 class="kiko-title"><%= product.name %></h4>
+                                      <p class="kiko-price">PKR <%= product.price.toLocaleString() %></p>
+                                  </a>
+                                  <div class="kiko-rating" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; font-size: 11px;">
+                                      <div>
+                                          <% if (product.reviewsCount && product.reviewsCount > 0) { %>
+                                              <span style="color: #ff1493; font-weight: 700;"><%= product.rating.toFixed(1) %>/5</span>
+                                              <span style="color: #ff1493;">
+                                                  <% for(let i = 1; i <= 5; i++) { %>
+                                                      <%= i <= Math.round(product.rating) ? '★' : '☆' %>
+                                                  <% } %>
+                                              </span>
+                                              <span>(<%= product.reviewsCount %>)</span>
+                                          <% } else { %>
+                                              <span style="color: #888;">No Reviews Yet</span>
+                                          <% } %>
+                                      </div>
+                                      <span style="color: #888;">(<%= product.stock %> left)</span>
+                                  </div>
+                                 
+                                 <div class="card-action" style="justify-content: center; margin-top: auto; gap: 15px;">
+                                     <form action="/cart/add" method="POST" class="ajax-cart-form" style="margin: 0; display: inline;">
+                                         <input type="hidden" name="productId" value="<%= product._id %>">
+                                         <input type="hidden" name="quantity" value="1">
+                                         <button type="submit" class="btn-secondary" style="margin: 0; width: auto; float: none;" <%= product.stock <= 0 ? 'disabled' : '' %>><%= product.stock > 0 ? 'ADD TO BAG' : 'OUT OF STOCK' %></button>
+                                     </form>
+                                     <span class="like-icon liked" data-product-id="<%= product._id %>">&#9829;</span>
+                                 </div>
+                             </div>
+                         </div>
+                     <% }); %>
+                </div>
+            </section>
+        <% } %>
+    </div>
+
+    <!-- Footer Partial -->
+    <%- include('partials/footer') %>
+
+    <!-- AJAX Cart and Favorites Toggling -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle AJAX Add to Bag
+            document.querySelectorAll('.ajax-cart-form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button');
+                    const originalText = btn.textContent;
+                    btn.disabled = true;
+                    btn.textContent = 'ADDING...';
+
+                    const formData = new URLSearchParams(new FormData(form));
+                    fetch('/cart/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            btn.textContent = 'ADDED!';
+                            btn.style.backgroundColor = '#1a7f37';
+                            btn.style.borderColor = '#1a7f37';
+                            
+                            document.querySelectorAll('.cart-badge').forEach(badge => {
+                                badge.textContent = data.cartCount;
+                            });
+
+                            setTimeout(() => {
+                                btn.disabled = false;
+                                btn.textContent = originalText;
+                                btn.style.backgroundColor = 'black';
+                                btn.style.borderColor = 'black';
+                            }, 1500);
+                        } else {
+                            alert(data.message || 'Error adding.');
+                            btn.disabled = false;
+                            btn.textContent = originalText;
+                        }
+                    })
+                    .catch(err => {
+                        btn.disabled = false;
+                        btn.textContent = originalText;
+                        form.submit();
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

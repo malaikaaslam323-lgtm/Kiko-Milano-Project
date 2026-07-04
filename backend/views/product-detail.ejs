@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.name %> - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/first.css">
+    <link rel="stylesheet" href="/ecommerce.css">
+</head>
+<body>
+
+    <!-- Header Partial -->
+    <%- include('partials/header') %>
+
+    <div class="pdp-wrapper">
+        
+        <!-- Alerts -->
+        <div style="max-width: 1200px; margin: 0 auto 20px auto;">
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="flash-msg flash-success"><%= success_msg %></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+                <div class="flash-msg flash-error"><%= error_msg %></div>
+            <% } %>
+        </div>
+
+        <div class="pdp-container">
+            <!-- Left: Product Image -->
+            <div class="pdp-image-section">
+                <img src="/<%= product.image %>" alt="<%= product.name %>" class="pdp-main-image" onerror="this.src='/Logo.webp'">
+            </div>
+
+            <!-- Right: Details, Shades & Purchase Controls -->
+            <div class="pdp-details-section">
+                <span class="pdp-category"><%= product.category %></span>
+                <h1 class="pdp-title"><%= product.name %></h1>
+                
+                <div class="pdp-rating-stock">
+                    <% if (product.reviewsCount && product.reviewsCount > 0) { %>
+                        <span style="color: #ff1493; font-weight: 700;">
+                            <%= product.rating.toFixed(1) %>/5 ★ 
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <%= i <= Math.round(product.rating) ? '★' : '☆' %>
+                            <% } %>
+                            (<%= product.reviewsCount %> <%= product.reviewsCount === 1 ? 'Review' : 'Reviews' %>)
+                        </span>
+                    <% } else { %>
+                        <span style="color: #888; font-weight: 500;">No Reviews Yet</span>
+                    <% } %>
+                    <span style="color: #666; font-weight: 500;">|</span>
+                    <% if (product.stock > 0) { %>
+                        <span style="color: #1a7f37; font-weight: 700;"><%= product.stock %> items available</span>
+                    <% } else { %>
+                        <span style="color: #cf222e; font-weight: 700;">OUT OF STOCK</span>
+                    <% } %>
+                </div>
+
+                <div class="pdp-price">PKR <%= product.price.toLocaleString() %></div>
+
+                <!-- Shades Selection Section -->
+                <% if (shades && shades.length > 0) { %>
+                    <div class="pdp-shades-section">
+                        <div class="pdp-shades-title">Select Shade: <span id="active-shade-label" style="font-weight: 800; color: #ff1493;"><%= shades[0] %></span></div>
+                        <div class="shades-grid">
+                            <% shades.forEach((shade, index) => { %>
+                                <div class="shade-pill <%= index === 0 ? 'active' : '' %>" data-shade-name="<%= shade %>">
+                                    <%= shade %>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- Add to Bag controls -->
+                <form action="/cart/add" method="POST" id="pdp-cart-form">
+                    <input type="hidden" name="productId" value="<%= product._id %>">
+                    <input type="hidden" name="shade" id="pdp-selected-shade" value="<%= shades[0] %>">
+                    
+                    <div class="pdp-actions">
+                        <div class="qty-selector">
+                            <button type="button" class="qty-btn" id="qty-minus">-</button>
+                            <input type="number" name="quantity" id="pdp-qty-input" value="1" min="1" max="<%= product.stock %>" readonly class="qty-input">
+                            <button type="button" class="qty-btn" id="qty-plus">+</button>
+                        </div>
+                        
+                        <button type="submit" class="pdp-add-btn" id="pdp-submit-btn" <%= product.stock <= 0 ? 'disabled' : '' %>>
+                            <%= product.stock > 0 ? 'ADD TO BAG' : 'OUT OF STOCK' %>
+                        </button>
+
+                        <span class="like-icon pdp-fav-btn <%= typeof favoritesList !== 'undefined' && favoritesList.includes(product._id.toString()) ? 'liked' : '' %>" data-product-id="<%= product._id %>"><%- typeof favoritesList !== 'undefined' && favoritesList.includes(product._id.toString()) ? '&#9829;' : '&#9825;' %></span>
+                    </div>
+                </form>
+
+                <!-- Accordion Tabs -->
+                <div class="pdp-tab-container">
+                    <div class="pdp-tab-header">Description</div>
+                    <div class="pdp-tab-content" style="margin-bottom: 25px;">
+                        <%= product.description || 'No description available for this luxury product. Preserves Kiko Milano\'s unique formulation for comfortable application and brilliant finish.' %>
+                    </div>
+
+                    <div class="pdp-tab-header">Ingredients</div>
+                    <div class="pdp-tab-content" style="font-family: monospace; font-size: 11px;">
+                        <%= ingredients %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <section class="pdp-reviews-section">
+            <div class="pdp-reviews-header">
+                <h2 class="pdp-reviews-title">Customer Reviews</h2>
+                <% if (typeof currentUser !== 'undefined' && currentUser && !userHasReviewed) { %>
+                    <button class="write-review-btn" id="toggle-review-form-btn">Write A Review</button>
+                <% } %>
+            </div>
+
+            <div class="pdp-reviews-summary">
+                <% if (reviews.length > 0) { %>
+                    <div class="summary-rating-num"><%= averageRating.toFixed(1) %>/5</div>
+                    <div class="summary-rating-stars">
+                        <div class="star-rating-display">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <% if (i <= Math.round(averageRating)) { %>
+                                    <span>&#9733;</span>
+                                <% } else { %>
+                                    <span class="empty-star">&#9734;</span>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <div class="summary-rating-count">Based on <%= reviews.length %> <%= reviews.length === 1 ? 'review' : 'reviews' %></div>
+                    </div>
+                <% } else { %>
+                    <div class="summary-rating-num">0.0/5</div>
+                    <div class="summary-rating-stars">
+                        <div class="star-rating-display">
+                            <span>&#9734;</span><span>&#9734;</span><span>&#9734;</span><span>&#9734;</span><span>&#9734;</span>
+                        </div>
+                        <div class="summary-rating-count">No Reviews Yet</div>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Review Submission Form -->
+            <% if (typeof currentUser !== 'undefined' && currentUser && !userHasReviewed) { %>
+                <div class="review-form-container" id="review-form-box" style="display: none;">
+                    <h3 class="review-form-title">Share your experience</h3>
+                    <form action="/products/<%= product._id %>/reviews" method="POST" id="pdp-review-form">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="form-group">
+                            <label class="form-label">Your Rating</label>
+                            <div class="star-selector" id="pdp-star-selector">
+                                <span data-value="1">&#9734;</span>
+                                <span data-value="2">&#9734;</span>
+                                <span data-value="3">&#9734;</span>
+                                <span data-value="4">&#9734;</span>
+                                <span data-value="5">&#9734;</span>
+                            </div>
+                            <input type="hidden" name="rating" id="review-rating-input" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="review-comment-textarea">Your Review</label>
+                            <textarea name="comment" id="review-comment-textarea" class="kiko-input" placeholder="What did you like or dislike about this product? How was the shade, texture, and lasting power?" required style="width: 100%; border: 1px solid #ddd; padding: 15px; border-radius: 4px; font-family: inherit; font-size: 14px; min-height: 120px; box-sizing: border-box;"></textarea>
+                        </div>
+                        <button type="submit" class="pdp-add-btn" style="max-width: 200px;">Submit Review</button>
+                    </form>
+                </div>
+            <% } else if (typeof currentUser !== 'undefined' && currentUser && userHasReviewed) { %>
+                <div style="background: #fff9fb; border: 1px solid #ffe3ec; padding: 15px 20px; border-radius: 6px; margin-bottom: 40px; font-size: 13px; font-weight: 500; color: #ff1493;">
+                    You have already submitted a review for this product. Thank you for your feedback!
+                </div>
+            <% } else { %>
+                <div style="background: #fafafa; border: 1px solid #eee; padding: 15px 20px; border-radius: 6px; margin-bottom: 40px; font-size: 13px; font-weight: 500; color: #666;">
+                    Please <a href="/login" style="color: #ff1493; text-decoration: underline; font-weight: 700;">log in</a> to write a review.
+                </div>
+            <% } %>
+
+            <!-- Reviews List Grid -->
+            <div class="reviews-list">
+                <% if (reviews.length === 0) { %>
+                    <div style="text-align: center; padding: 40px 20px; border: 1px dashed #ddd; border-radius: 8px; color: #777;">
+                        <p style="font-size: 15px; font-weight: 500; margin: 0 0 10px 0;">No reviews yet</p>
+                        <p style="font-size: 13px; margin: 0;">Be the first to review this product and share your thoughts with other customers!</p>
+                    </div>
+                <% } else { %>
+                    <% reviews.forEach(review => { %>
+                        <div class="review-card">
+                            <div class="review-card-header">
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name"><%= review.customer ? review.customer.name : 'Verified Customer' %></div>
+                                    <div class="review-date"><%= new Date(review.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+                                </div>
+                                <div class="star-rating-display" style="font-size: 16px;">
+                                    <% for(let i = 1; i <= 5; i++) { %>
+                                        <% if (i <= review.rating) { %>
+                                            <span>&#9733;</span>
+                                        <% } else { %>
+                                            <span class="empty-star">&#9734;</span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="review-comment"><%= review.comment %></div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </section>
+
+        <!-- Related Products Section -->
+        <% if (relatedProducts && relatedProducts.length > 0) { %>
+            <div style="border-top: 1px solid #eee; padding-top: 60px;">
+                <h2 class="cart-title" style="font-size: 22px; margin-bottom: 40px; text-align: left;">You May Also Like</h2>
+                <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <% relatedProducts.forEach(item => { %>
+                        <div class="product-card" style="text-align: left; display: flex; flex-direction: column;">
+                            <a href="/products/<%= item._id %>" style="text-decoration: none; color: inherit;">
+                                <img src="/<%= item.image %>" alt="<%= item.name %>" style="width: 100%; height: 280px; object-fit: contain; background: #fafafa; border: 1px solid #eee; border-radius: 6px; padding: 10px; margin-bottom: 15px;" onerror="this.src='/Logo.webp'">
+                                <h4 class="centered-text" style="font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; text-align: center;"><%= item.name %></h4>
+                                <p class="price centered-text" style="font-size: 13px; text-align: center; font-weight: 500; margin-bottom: 8px;">PKR <%= item.price.toLocaleString() %></p>
+                                <div class="kiko-rating" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 12px; font-size: 11px;">
+                                    <% if (item.reviewsCount && item.reviewsCount > 0) { %>
+                                        <span style="color: #ff1493; font-weight: 700;"><%= item.rating.toFixed(1) %>/5</span>
+                                        <span style="color: #ff1493;">
+                                            <% for(let i = 1; i <= 5; i++) { %>
+                                                <%= i <= Math.round(item.rating) ? '★' : '☆' %>
+                                            <% } %>
+                                        </span>
+                                        <span>(<%= item.reviewsCount %>)</span>
+                                    <% } else { %>
+                                        <span style="color: #888;">No Reviews Yet</span>
+                                    <% } %>
+                                </div>
+                            </a>
+                            <form action="/cart/add" method="POST" style="margin-top: auto; display: flex; justify-content: center; gap: 10px;">
+                                <input type="hidden" name="productId" value="<%= item._id %>">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn-secondary" style="font-size: 11px; padding: 8px 16px; border-radius: 4px; float: none;">ADD TO BAG</button>
+                            </form>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } %>
+
+    </div>
+
+    <!-- Footer Partial -->
+    <%- include('partials/footer') %>
+
+    <!-- PDP Scripting -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            const qtyInput = document.getElementById('pdp-qty-input');
+            const qtyMinus = document.getElementById('qty-minus');
+            const qtyPlus = document.getElementById('qty-plus');
+            const submitBtn = document.getElementById('pdp-submit-btn');
+            const shadeInput = document.getElementById('pdp-selected-shade');
+            const activeShadeLabel = document.getElementById('active-shade-label');
+
+            const maxStock = parseInt(qtyInput.getAttribute('max')) || 0;
+
+            // Handle Quantity adjustment
+            qtyMinus.addEventListener('click', () => {
+                let val = parseInt(qtyInput.value);
+                if (val > 1) {
+                    qtyInput.value = val - 1;
+                }
+            });
+
+            qtyPlus.addEventListener('click', () => {
+                let val = parseInt(qtyInput.value);
+                if (val < maxStock) {
+                    qtyInput.value = val + 1;
+                }
+            });
+
+            // Handle Shade Selection
+            document.querySelectorAll('.shade-pill').forEach(pill => {
+                pill.addEventListener('click', (e) => {
+                    document.querySelectorAll('.shade-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    const selectedShade = pill.getAttribute('data-shade-name');
+                    shadeInput.value = selectedShade;
+                    activeShadeLabel.textContent = selectedShade;
+                });
+            });
+
+            // Handle AJAX addition so page doesn't refresh on Add to Bag
+            const cartForm = document.getElementById('pdp-cart-form');
+            cartForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'ADDING...';
+
+                const formData = new URLSearchParams(new FormData(cartForm));
+
+                fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        submitBtn.textContent = 'ADDED!';
+                        submitBtn.style.backgroundColor = '#1a7f37';
+                        submitBtn.style.borderColor = '#1a7f37';
+                        
+                        // Update cart count badges globally
+                        document.querySelectorAll('.cart-badge').forEach(badge => {
+                            badge.textContent = data.cartCount;
+                        });
+
+                        setTimeout(() => {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'ADD TO BAG';
+                            submitBtn.style.backgroundColor = '#000';
+                            submitBtn.style.borderColor = '#000';
+                        }, 1500);
+                    } else {
+                        alert(data.message || 'Error adding to bag.');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'ADD TO BAG';
+                    }
+                })
+                .catch(err => {
+                    console.error("AJAX Error:", err);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'ADD TO BAG';
+                    cartForm.submit(); // fallback
+                });
+            });
+
+            // --- REVIEWS STAR RATING & FORM TOGGLE ---
+            const starSelector = document.getElementById('pdp-star-selector');
+            const ratingInput = document.getElementById('review-rating-input');
+            if (starSelector && ratingInput) {
+                const stars = starSelector.querySelectorAll('span');
+                
+                stars.forEach((star, index) => {
+                    // Highlight on hover
+                    star.addEventListener('mouseover', () => {
+                        highlightStars(index);
+                    });
+                    
+                    // Restore on mouseout to clicked value
+                    star.addEventListener('mouseout', () => {
+                        const clickedVal = parseInt(ratingInput.value) || 0;
+                        highlightStars(clickedVal - 1);
+                    });
+                    
+                    // Set value on click
+                    star.addEventListener('click', () => {
+                        const val = index + 1;
+                        ratingInput.value = val;
+                        highlightStars(index);
+                        // Make active state stick
+                        stars.forEach((s, idx) => {
+                            if (idx <= index) {
+                                s.classList.add('active');
+                            } else {
+                                s.classList.remove('active');
+                            }
+                        });
+                    });
+                });
+                
+                function highlightStars(maxIndex) {
+                    stars.forEach((s, idx) => {
+                        if (idx <= maxIndex) {
+                            s.innerHTML = '&#9733;'; // filled star
+                            s.style.color = '#ff1493';
+                        } else {
+                            s.innerHTML = '&#9734;'; // empty star
+                            s.style.color = '#ddd';
+                        }
+                    });
+                }
+            }
+
+            // Handle Review Form Box Toggle
+            const toggleFormBtn = document.getElementById('toggle-review-form-btn');
+            const reviewFormBox = document.getElementById('review-form-box');
+            if (toggleFormBtn && reviewFormBox) {
+                toggleFormBtn.addEventListener('click', () => {
+                    if (reviewFormBox.style.display === 'none') {
+                        reviewFormBox.style.display = 'block';
+                        toggleFormBtn.textContent = 'Cancel Review';
+                        reviewFormBox.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        reviewFormBox.style.display = 'none';
+                        toggleFormBtn.textContent = 'Write A Review';
+                    }
+                });
+            }
+
+            // Client-side form submit check
+            const reviewForm = document.getElementById('pdp-review-form');
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', (e) => {
+                    const rating = ratingInput.value;
+                    if (!rating) {
+                        e.preventDefault();
+                        alert('Please select a star rating (1-5 stars) before submitting.');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

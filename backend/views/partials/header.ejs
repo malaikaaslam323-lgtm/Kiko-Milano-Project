@@ -1,0 +1,75 @@
+<% if (typeof csrfToken !== 'undefined') { %>
+<meta name="csrf-token" content="<%= csrfToken %>">
+<% } %>
+<div class="top-bar">
+    <div class="top-left">
+        <div class="loc">
+            <img src="/Icon_5.png" alt="Location">
+            <span>STORES</span>
+        </div>
+    </div>
+    <div class="top-center">
+        <p>Dial our UAN 042-111-70-80-90 for inquiries.</p>
+    </div>
+    <div class="top-right">
+        <span>PAK | EN &#127477;&#127472;</span>
+    </div>
+</div>
+
+<header class="site-header">
+    <div class="header-middle">
+        <div class="header-left">
+            <form action="/products" method="GET" class="search-container">
+                <span class="search-icon">&#128269;&#xFE0E;</span>
+                <input type="text" name="search" placeholder="Search" class="search-input">
+            </form>
+        </div>
+        
+        <div class="logo">
+            <a href="/"><img src="/Logo.webp" alt="KIKO Milano Logo"></a>
+        </div>
+        
+        <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
+            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                <a href="/dashboard" style="text-decoration: none; color: black; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">DASHBOARD</a>
+                <a href="/my-account" style="text-decoration: none; color: black; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-left: 12px;">MY ACCOUNT</a>
+                <a href="/logout" style="text-decoration: none; color: black; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-left: 12px;">LOGOUT</a>
+            <% } else { %>
+                <a href="/login" style="text-decoration: none; color: black; display: flex; align-items: center; gap: 5px;">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </span>
+                </a>
+            <% } %>
+            
+            <a href="/favorites" class="cart-icon-container" style="text-decoration: none; color: inherit; position: relative; display: flex; align-items: center;">
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </span>
+                <span class="cart-badge fav-badge" style="background-color: #ff1493;"><%= typeof favoritesCount !== 'undefined' ? favoritesCount : 0 %></span>
+            </a> 
+            
+            <a href="/cart" class="cart-icon-container" style="text-decoration: none; color: inherit; position: relative; display: flex; align-items: center;">
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                </span> 
+                <span class="cart-badge"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+            </a>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="hamburger" id="hamburger">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="/products">ALL MAKE UP</a>
+            <a href="/products?category=FACE">FACE</a>
+            <a href="/products?category=LIPS">LIPS</a>
+            <a href="/products?category=EYES">EYES</a>
+            <a href="/products?category=SKIN CARE">SKIN CARE</a>
+            <a href="/products?category=ACCESSORIES">ACCESSORIES</a>
+            <a href="/products?category=FRAGRANCE">FRAGRANCE</a>
+        </div>
+    </nav>
+</header>

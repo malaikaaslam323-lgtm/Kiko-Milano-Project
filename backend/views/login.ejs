@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/first.css">
+    <link rel="stylesheet" href="/ecommerce.css">
+    <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+
+    <a href="/" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        BACK TO HOME
+    </a>
+
+    <div class="auth-card">
+        <div class="auth-title">LOGIN</div>
+
+        <% if (success_msg && success_msg.length > 0) { %>
+            <div class="flash-msg flash-success"><%= success_msg %></div>
+        <% } %>
+        <% if (error_msg && error_msg.length > 0) { %>
+            <div class="flash-msg flash-error"><%= error_msg %></div>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="form-group-spaced">
+                <label class="kiko-label">Email address *</label>
+                <input type="email" name="email" class="kiko-input" required autocomplete="email">
+            </div>
+
+            <div class="form-group-spaced">
+                <label class="kiko-label">Password *</label>
+                <input type="password" name="password" class="kiko-input" required>
+            </div>
+
+            <button type="submit" class="kiko-btn">LOGIN</button>
+        </form>
+
+        <div class="auth-links">
+            For more information regarding the processing of your personal data please read our privacy policy.<br><br>
+            Don't have an account? <br><a href="/register">Register here</a>
+        </div>
+    </div>
+
+</body>
+</html>

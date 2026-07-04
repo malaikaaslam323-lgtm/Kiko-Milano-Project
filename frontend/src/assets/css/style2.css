@@ -1,0 +1,193 @@
+/* =========================================
+   KIKO MILANO - LUXURY CONTACT PAGE
+========================================= */
+
+.contact-premium-wrapper {
+    background-color: #fafafa;
+    padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.contact-luxury-card {
+    display: flex;
+    max-width: 1100px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    overflow: hidden; /* Keeps the rounded corners intact over the split panels */
+}
+
+/* --- Left Side: Dark Info Panel --- */
+.contact-info-panel {
+    flex: 1;
+    background-color: #111111;
+    color: #ffffff;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-info-panel h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.contact-subtitle {
+    font-size: 14px;
+    color: #cccccc;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 85%;
+}
+
+.info-block {
+    margin-bottom: 30px;
+}
+
+.info-block h4 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #ff1493; /* Kiko Pink Accent */
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.info-block p {
+    font-size: 14px;
+    color: #f0f0f0;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+}
+
+/* --- Right Side: Light Form Panel --- */
+.contact-form-panel {
+    flex: 1.5;
+    padding: 60px 70px;
+    background-color: #ffffff;
+}
+
+.contact-form-panel h2 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #111111;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+/* --- Shared Form Elements (Mirrors login.css) --- */
+.kiko-fieldset {
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    padding: 0 16px 14px 16px;
+    margin-bottom: 24px;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.kiko-fieldset:focus-within {
+    border-color: #000000;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.kiko-legend {
+    padding: 0 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.kiko-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111111;
+    margin-top: 4px;
+    resize: vertical; /* Allows textareas to only resize up and down */
+}
+
+/* Target specifically the textarea so it doesn't look cramped */
+textarea.kiko-input {
+    min-height: 100px;
+    margin-top: 8px;
+}
+
+.kiko-btn {
+    width: 100%;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 18px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.kiko-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+========================================= */
+@media (max-width: 992px) {
+    .contact-form-panel {
+        padding: 50px 40px;
+    }
+    .contact-info-panel {
+        padding: 50px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-premium-wrapper {
+        padding: 40px 15px;
+    }
+    
+    /* On phones, stack the dark panel on top of the form */
+    .contact-luxury-card {
+        flex-direction: column;
+    }
+
+    .contact-info-panel {
+        padding: 50px 30px;
+        text-align: center;
+    }
+
+    .contact-subtitle {
+        max-width: 100%;
+    }
+
+    .contact-form-panel {
+        padding: 40px 25px;
+    }
+    
+    .contact-form-panel h2 {
+        font-size: 20px;
+        text-align: center;
+    }
+}

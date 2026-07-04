@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+
+    <div class="admin-top-bar">
+        <span>KIKO MILANO BACK OFFICE &bull; CENTRAL CONTROL PANEL</span>
+    </div>
+
+    <header class="admin-site-header">
+        <div class="header-container">
+            <div class="header-side-left">
+                <span class="admin-badge-indicator">SYSTEM ADMIN</span>
+            </div>
+            
+            <div class="admin-logo">
+                <img src="/Logo.webp" alt="KIKO Milano">
+            </div>
+
+            <div class="header-side-right">
+                <a href="/" class="return-store-btn" target="_blank" rel="noopener noreferrer">
+                    RETURN TO STORE 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-action-bar">
+        <div class="title-block">
+            <h1>ADMIN CONTROL CENTER</h1>
+            <p>SYSTEM OVERVIEW & STATISTICS</p>
+        </div>
+        <div>
+            <a href="/admin/product/add" class="btn-add-new-product">+ ADD NEW PRODUCT</a>
+        </div>
+    </div>
+
+    <!-- Sub-Navigation Navigation Bar -->
+    <div style="max-width: 1400px; margin: 10px auto 30px auto; padding: 0 50px; overflow-x: auto;">
+        <div style="display: flex; gap: 10px; border-bottom: 2px solid #eaeaea; padding-bottom: 15px; min-width: max-content;">
+            <a href="/admin" class="admin-nav-btn" style="background-color: #000; color: #fff;">PRODUCTS INVENTORY</a>
+            <a href="/admin/orders" class="admin-nav-btn">ORDER MANAGEMENT</a>
+            <a href="/admin/users" class="admin-nav-btn">REGISTERED CUSTOMERS</a>
+            <a href="/admin/newsletter" class="admin-nav-btn">NEWSLETTER & CAMPAIGNS</a>
+            <a href="/admin/reviews" class="admin-nav-btn">PRODUCT REVIEWS</a>
+            <a href="/admin/sales" class="admin-nav-btn">LIVE SALES METRICS</a>
+        </div>
+    </div>
+
+    <div style="max-width: 1400px; margin: 0 auto 10px auto; padding: 0 50px;">
+        <% if (success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success" style="margin: 0 0 25px 0;"><%= success_msg %></div>
+        <% } %>
+        <% if (error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-error" style="background-color: #ffe6e6; color: #cc0000; padding: 15px; text-align: center; margin-bottom: 25px; border-radius: 4px; font-weight: 600; margin: 0 0 25px 0;"><%= error_msg %></div>
+        <% } %>
+    </div>
+
+    <!-- Expanded Analytics Grid -->
+    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <div class="stat-card">
+            <div class="stat-info">
+                <span class="stat-title">Total Products</span>
+                <span class="stat-value"><%= totalProducts %></span>
+            </div>
+            <div class="stat-icon-wrapper">🛍️</div>
+        </div>
+        <div class="stat-card highlighted-card">
+            <div class="stat-info">
+                <span class="stat-title">Total Sales</span>
+                <span class="stat-value">Rs. <%= totalSales.toLocaleString() %></span>
+            </div>
+            <div class="stat-icon-wrapper">💰</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-info">
+                <span class="stat-title">Total Orders</span>
+                <span class="stat-value"><%= totalOrders %></span>
+            </div>
+            <div class="stat-icon-wrapper">📦</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-info">
+                <span class="stat-title">Total Customers</span>
+                <span class="stat-value"><%= totalCustomers %></span>
+            </div>
+            <div class="stat-icon-wrapper">👥</div>
+        </div>
+    </div>
+
+    <div style="max-width: 1400px; margin: 0 auto 40px auto; padding: 0 50px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+        <!-- Left: Products Inventory Table -->
+        <div>
+            <h3 style="margin-bottom: 20px; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">Products Catalog</h3>
+            <div style="background: #fff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 10px 40px rgba(0,0,0,0.03); overflow: hidden;">
+                <table class="admin-table" style="box-shadow: none; border-radius: 0;">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th style="text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(product => { %>
+                            <tr>
+                                <td>
+                                    <div class="table-thumb-container">
+                                        <img src="/<%= product.image %>" class="thumb" onerror="this.src='/Logo.webp'">
+                                    </div>
+                                </td>
+                                <td class="product-name-cell"><%= product.name %></td>
+                                <td><span class="category-pill"><%= product.category %></span></td>
+                                <td class="price-cell">PKR <%= product.price.toLocaleString() %></td>
+                                <td>
+                                    <span class="stock-count <%= product.stock < 5 ? 'low-stock-alert' : '' %>">
+                                        <%= product.stock %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-btns">
+                                        <a href="/admin/product/edit/<%= product._id %>" class="btn-action-edit">EDIT</a>
+                                        <form action="/admin/product/delete/<%= product._id %>" method="POST" style="margin: 0;" onsubmit="return confirm('WARNING: Are you sure you want to permanently delete this product?');">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit" class="btn-action-delete">DELETE</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right: Top Selling Products & Low Stock Alerts -->
+        <div>
+            <h3 style="margin-bottom: 20px; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">Top Selling Products</h3>
+            <div style="background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 10px 40px rgba(0,0,0,0.03); margin-bottom: 30px;">
+                <% if (topSelling.length === 0) { %>
+                    <p style="color: #666; font-size: 13px;">No sales data available yet.</p>
+                <% } else { %>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <% topSelling.forEach(item => { %>
+                            <% if (item._id) { %>
+                                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f9f9f9; padding-bottom: 10px;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <img src="/<%= item._id.image %>" style="width: 30px; height: 30px; object-fit: contain;" onerror="this.src='/Logo.webp'">
+                                        <span style="font-weight: 600; font-size: 13px;"><%= item._id.name %></span>
+                                    </div>
+                                    <span style="font-weight: 700; font-size: 12px; color: #ff1493;"><%= item.totalQuantity %> sold</span>
+                                </div>
+                            <% } %>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+
+            <h3 style="margin-bottom: 20px; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">System Health</h3>
+            <div style="background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 10px 40px rgba(0,0,0,0.03);">
+                <div style="display: flex; flex-direction: column; gap: 15px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600; color: #666;">Low Stock Alerts:</span>
+                        <span style="font-weight: 700;" class="<%= lowStockCount > 0 ? 'text-danger' : '' %>"><%= lowStockCount %> items</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600; color: #666;">Database Status:</span>
+                        <span style="font-weight: 700; color: #1a7f37;">Connected</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

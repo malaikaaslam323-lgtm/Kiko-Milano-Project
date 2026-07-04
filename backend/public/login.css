@@ -1,0 +1,213 @@
+/* =========================================
+   KIKO MILANO - LUXURY AUTHENTICATION STYLES
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    /* Cleaned up the gradient into a high-end studio lighting effect */
+    background: radial-gradient(circle at top left, #fff1f3 0%, #fce4ec 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* --- Premium Pill Back Button --- */
+.back-btn {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    text-decoration: none;
+    color: #111111;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    
+    /* Frosted Glass Layout */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+}
+
+.back-btn:hover {
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.back-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover svg {
+    transform: translateX(-4px); /* Arrow glides gracefully left */
+}
+
+/* --- Elevated Luxury Auth Card Container --- */
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    padding: 50px 45px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    /* Soft floating dimensional shadow */
+    box-shadow: 0 20px 50px rgba(255, 20, 147, 0.05), 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.auth-title {
+    text-align: center;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: #000000;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+/* --- Premium Fieldset Input Layout --- */
+.kiko-fieldset {
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    padding: 0 16px 14px 16px;
+    margin-bottom: 24px;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.kiko-fieldset:focus-within {
+    border-color: #000000; /* Crisp change to full black on active input */
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.kiko-legend {
+    padding: 0 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.kiko-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111111;
+    margin-top: 4px;
+}
+
+/* --- Monochromatic Primary Action Button --- */
+.kiko-btn {
+    width: 100%;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 18px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.kiko-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+    transform: translateY(-1px);
+}
+
+/* --- Links and Disclaimer Info Text --- */
+.auth-links {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #666666;
+    letter-spacing: 0.3px;
+}
+
+.auth-links a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px solid #000000;
+    transition: all 0.2s;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.auth-links a:hover {
+    color: #ff1493;
+    border-color: #ff1493;
+}
+
+/* --- System Response Flash Messages --- */
+.flash-msg {
+    padding: 14px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.flash-error { 
+    background-color: #ffe6e6; 
+    color: #cc0000; 
+    border: 1px solid #ffa3a3;
+}
+
+.flash-success { 
+    background-color: #e6ffe6; 
+    color: #006600; 
+    border: 1px solid #a3mfa3;
+}
+
+/* --- Responsive Layout Rules --- */
+@media (max-width: 768px) {
+    .back-btn {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 30px;
+        align-self: flex-start;
+    }
+    body {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 40px;
+    }
+    .auth-card {
+        padding: 40px 25px;
+    }
+}

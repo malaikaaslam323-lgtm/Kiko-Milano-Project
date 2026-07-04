@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIKO MILANO Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/first.css">
+    
+
+
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="top-left">
+            <div class="loc">
+                <img src="/Icon_5.png" alt="Location">
+                <span>STORES</span>
+            </div>
+        </div>
+        <div class="top-center">
+            <p>Dial our UAN 042-111-70-80-90 for inquiries.</p>
+        </div>
+        <div class="top-right">
+            <span>PAK | EN &#127477;&#127472;</span> </div>
+    </div>
+
+    <header class="site-header">
+        
+        <div class="header-middle">
+            
+            <div class="header-left">
+                <form action="/products" method="GET" class="search-container">
+                    <span class="search-icon">&#128269;&#xFE0E;</span>
+                    <input type="text" name="search" placeholder="Search" class="search-input">
+                    <button type="submit" style="display: none;"></button>
+                </form>
+            </div>
+
+            <div class="logo">
+                <img src="/Logo.webp">
+            </div>
+
+            <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
+    
+     <% if (currentUser) { %>
+        <% if (userRole && userRole.toLowerCase() === 'admin') { %>
+            <a href="/admin" style="text-decoration: none; color: #ff1493; font-size: 12px; font-weight: 700; margin-right: 10px;">ADMIN PANEL</a>
+        <% } else { %>
+            <a href="/dashboard" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600; margin-right: 10px;">DASHBOARD</a>
+            <a href="/my-account" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600; margin-right: 10px;">MY ACCOUNT</a>
+        <% } %>
+        
+        <a href="/logout" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600;">LOGOUT</a>
+     <% } else { %>
+        <a href="/login" style="text-decoration: none; color: black; display: flex; align-items: center; gap: 5px;">
+            <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </span>
+        </a>
+     <% } %>
+
+                <a href="/favorites" class="cart-icon-container" style="text-decoration: none; color: inherit; position: relative; display: flex; align-items: center;">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    </span>
+                    <span class="cart-badge fav-badge" style="background-color: #ff1493;"><%= typeof favoritesCount !== 'undefined' ? favoritesCount : 0 %></span>
+                </a> 
+                
+                <a href="/cart" class="cart-icon-container" style="position: relative; display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    </span> 
+                    <span class="cart-badge"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+                </a>
+
+            </div>
+        </div>
+
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+            <a href="/products">MAKE UP</a>
+            <a href="/products?category=SKIN CARE" >SKIN CARE</a>
+            <a href="/products?category=ACCESSORIES">ACCESSORIES</a>
+            <a href="/products?category=FRAGRANCE">FRAGRANCES</a>
+            <a href="/products?category=HAIR">HAIR</a>
+            </div>
+        </nav>
+        
+    </header>
+        
+
+   <section class="hero">
+    </section>
+
+    <section class="bestsellers">
+        <h2 class="section-title">KIKO <span> MOST LOVED </span></h2>
+        <div class="product-grid">
+            <% bestsellers.forEach(product => { %>
+                <div class="product-card" style="display: flex; flex-direction: column;">
+                    <a href="/products/<%= product._id %>" style="text-decoration: none; color: inherit;">
+                        <img src="/<%= product.image %>" alt="<%= product.name %>" onerror="this.src='/Logo.webp'">
+                        <h4 class="centered-text"><%= product.name %></h4>
+                        <p class="price centered-text">PKR <%= product.price.toLocaleString() %></p>
+                        <div class="kiko-rating" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 12px; font-size: 11px;">
+                            <% if (product.reviewsCount && product.reviewsCount > 0) { %>
+                                <span style="color: #ff1493; font-weight: 700;"><%= product.rating.toFixed(1) %>/5</span>
+                                <span style="color: #ff1493;">
+                                    <% for(let i = 1; i <= 5; i++) { %>
+                                        <%= i <= Math.round(product.rating) ? '★' : '☆' %>
+                                    <% } %>
+                                </span>
+                                <span>(<%= product.reviewsCount %>)</span>
+                            <% } else { %>
+                                <span style="color: #888;">No Reviews Yet</span>
+                            <% } %>
+                        </div>
+                    </a>
+                    <div class="card-action" style="margin-top: auto; justify-content: center; gap: 15px;">
+                        <form action="/cart/add" method="POST" class="ajax-cart-form" style="margin: 0; display: inline;">
+                            <input type="hidden" name="productId" value="<%= product._id %>">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn-secondary" style="border-radius: 7px; padding: 12px 25px; font-weight: bold; cursor: pointer; float: none; width: auto; margin: 0;">ADD TO BAG</button>
+                        </form>
+                        <div class="like">
+                            <span class="like-icon <%= typeof favoritesList !== 'undefined' && favoritesList.includes(product._id.toString()) ? 'liked' : '' %>" data-product-id="<%= product._id %>"><%- typeof favoritesList !== 'undefined' && favoritesList.includes(product._id.toString()) ? '&#9829;' : '&#9825;' %></span>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div> <a href="/products" class="view-all-btn" style="text-decoration: none; display: inline-block; text-align: center;">VIEW ALL</a>
+        
+    </section>
+<section class="top-categories">
+        <h2>TOP CATEGORIES</h2>
+        <div class="category-grid" >
+                <div class="category-item">
+                    <a href="/products?category=LIPS" style="text-decoration: none; color: inherit; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                    <div class="category-img-wrapper">
+                        <img src="/ll1.webp" alt="Lips">
+                    </div>
+                    <p>LIPS</p>
+                    </a>
+                </div>
+                
+                <div class="category-item">
+            <a href="/products?category=EYES" style="text-decoration: none; color: inherit; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                 <div class="category-img-wrapper">
+                        <img src="/glitteye1.webp" alt="Eyes">
+                    </div>
+                    <p>EYES</p>
+            </a>
+                </div>
+
+                <div class="category-item">
+            <a href="/products?category=FACE" style="text-decoration: none; color: inherit; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                  <div class="category-img-wrapper">
+                        <img src="/blush1.webp" alt="Face">
+                    </div>
+                    <p>FACE</p>
+            </a>
+                </div>
+
+                <div class="category-item">
+         <a href="/products?category=SKINCARE" style="text-decoration: none; color: inherit; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+             <div class="category-img-wrapper">
+                        <img src="/skc1.webp" alt="Skin Care">
+                    </div>
+                    <p>SKIN CARE</p>
+         </a>
+                </div>
+
+                <div class="category-item">
+                  <a href="/products?category=ACCESSORIES" style="text-decoration: none; color: inherit; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+
+                    <div class="category-img-wrapper">
+                        <img src="/sponge1.webp" alt="Accessories">
+                    </div>
+                    <p>ACCESSORIES</p>
+                  </a>
+                </div>
+
+            </div>
+ </section>
+    <section class="brand-section">
+        <div class="brand-container">
+            <div class="brand-img">
+                <img src="/HP_Carousel_1_OurBrand.webp" alt="KIKO MILANO ART BEAUTY JOY">
+
+            </div>
+            <div class="brand-content">
+                <span class="brand-badge">OUR BRAND</span>
+                <h2>Art &bull; Beauty &bull; Joy</h2>
+                <p>KIKO MILANO is a brand built for self-expression. We capture global trends and infuse them with our own distinctive style drawn from our Italian perspective before sharing them with our audience across the world.</p>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section class="deliver">
+        <div class="deliver-container">
+            <div class="deliver-item">
+                <img src="/truck.png" alt="FREE SHIPPING">
+                <p>FREE SHIPPING OVER ORDERS OF 50,000 PKR</p>
+            </div>
+            <div class="deliver-item" alt="SECURE PAYMENT">
+                <img src="/lipsLogo.png">
+                <p>SECURE PAYMENT PURCHASES ARE SECURE AND GUARANTEED</p>
+            </div>
+            <div class="deliver-item">
+                <img src="/orderLogo.png" alt="EASY EXCHANGE">
+                <p>EASY EXCHANGE UPTO 7 DAYS AFTER DELIVERY</p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-col">
+                <h4>HELP & SUPPORT</h4>
+                <ul>
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Store Locator</a></li>
+                    <li><a href="#">Your Account</a></li>
+                    <li><a href="#">Delivery Options</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Payment Accepted</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>ABOUT KIKO</h4>
+                <ul>
+                    <li><a href="/contact-us">Contact Us</a></li>
+                    <li><a href="#">Our Brand</a></li>
+                    <li><a href="#">Press Releases</a></li>
+                    <li><a href="#">Store Locations</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>JOIN OUR NEWSLETTER</h4>
+                <p>Sign up to get the latest beauty news and offers.</p>
+                <div class="newsletter-form">
+                <input type="email" placeholder="Enter your email" class="email-input">
+                <button class="btn-primary subscribe-btn">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>FOLLOW US ON</p>
+            <img src="/Icon_1.png" alt="Follow us on Instagram">
+            <img src="/Icon_3.png" alt="Follow us on Facebook">
+        </div>
+    </footer>
+
+<script src="/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.ajax-cart-form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = form.querySelector('button');
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = 'ADDING...';
+
+                const formData = new URLSearchParams(new FormData(form));
+                fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        btn.textContent = 'ADDED!';
+                        btn.style.backgroundColor = '#1a7f37';
+                        btn.style.borderColor = '#1a7f37';
+                        
+                        document.querySelectorAll('.cart-badge').forEach(badge => {
+                            badge.textContent = data.cartCount;
+                        });
+
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.textContent = originalText;
+                            btn.style.backgroundColor = 'black';
+                            btn.style.borderColor = 'black';
+                        }, 1500);
+                    } else {
+                        alert(data.message || 'Error adding.');
+                        btn.disabled = false;
+                        btn.textContent = originalText;
+                    }
+                })
+                .catch(err => {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                    form.submit(); // fallback
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

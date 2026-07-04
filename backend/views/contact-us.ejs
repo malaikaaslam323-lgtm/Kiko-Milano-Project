@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/first.css">
+    <link rel="stylesheet" href="/style2.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="top-left">
+            <div class="loc">
+                <img src="/Icon_5.png" alt="Location">
+                <span>STORES</span>
+            </div>
+        </div>
+        <div class="top-center">
+            <p>Dial our UAN 042-111-70-80-90 for inquiries.</p>
+        </div>
+        <div class="top-right">
+            <span>PAK | EN &#127477;&#127472;</span>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="header-middle">
+            <div class="header-left">
+                <form action="/products" method="GET" class="search-container">
+                    <span class="search-icon">&#128269;&#xFE0E;</span>
+                    <input type="text" name="search" placeholder="Search" class="search-input">
+                </form>
+            </div>
+            
+            <div class="logo">
+                <a href="/"><img src="/Logo.webp" alt="Kiko Milano Logo"></a>
+            </div>
+            
+            <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
+                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <% if (typeof userRole !== 'undefined' && userRole && userRole.toLowerCase() === 'admin') { %>
+                        <a href="/admin" style="text-decoration: none; color: #ff1493; font-size: 12px; font-weight: 700; margin-right: 10px;">ADMIN PANEL</a>
+                    <% } else { %>
+                        <a href="/dashboard" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600; margin-right: 10px;">DASHBOARD</a>
+                        <a href="/my-account" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600; margin-right: 10px;">MY ACCOUNT</a>
+                    <% } %>
+                    <a href="/logout" style="text-decoration: none; color: black; font-size: 12px; font-weight: 600;">LOGOUT</a>
+                <% } else { %>
+                    <a href="/login" style="text-decoration: none; color: black; display: flex; align-items: center; gap: 5px;">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </span>
+                    </a>
+                <% } %>
+                
+                <a href="/favorites" class="cart-icon-container" style="text-decoration: none; color: inherit; position: relative; display: flex; align-items: center;">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    </span>
+                    <span class="cart-badge fav-badge" style="background-color: #ff1493;"><%= typeof favoritesCount !== 'undefined' ? favoritesCount : 0 %></span>
+                </a> 
+                
+                <a href="/cart" class="cart-icon-container" style="position: relative; display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    </span> 
+                    <span class="cart-badge"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="/products">ALL MAKE UP</a>
+                <a href="/products?category=FACE">FACE</a>
+                <a href="/products?category=LIPS">LIPS</a>
+                <a href="/products?category=EYES">EYES</a>
+                <a href="/products?category=SKIN CARE">SKIN CARE</a>
+                <a href="/products?category=ACCESSORIES">ACCESSORIES</a>
+                <a href="/products?category=FRAGRANCE">FRAGRANCE</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="contact-premium-wrapper">
+        <div class="contact-luxury-card">
+            
+            <div class="contact-info-panel">
+                <h1>GET IN<br>TOUCH</h1>
+                <p class="contact-subtitle">We would love to hear from you. Reach out to our customer care team.</p>
+                
+                <div class="info-block">
+                    <h4>PHONE SUPPORT</h4>
+                    <p>UAN: 042 111-70-80-90</p>
+                </div>
+
+                <div class="info-block">
+                    <h4>WHATSAPP</h4>
+                    <p>+92 328 0805456</p>
+                </div>
+
+                <div class="info-block">
+                    <h4>HOURS OF OPERATION</h4>
+                    <p>Monday to Saturday<br>10:00 AM &mdash; 06:30 PM (PKT)</p>
+                </div>
+            </div>
+
+            <div class="contact-form-panel">
+                <h2>SEND A MESSAGE</h2>
+                
+                <form action="#" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="form-group-spaced">
+                        <label class="kiko-label">Full Name *</label>
+                        <input type="text" name="name" class="kiko-input" required>
+                    </div>
+
+                    <div class="form-group-spaced">
+                        <label class="kiko-label">Email Address *</label>
+                        <input type="email" name="email" class="kiko-input" required>
+                    </div>
+
+                    <div class="form-group-spaced">
+                        <label class="kiko-label">Order Number (Optional)</label>
+                        <input type="text" name="order_number" class="kiko-input">
+                    </div>
+                    
+                    <div class="form-group-spaced">
+                        <label class="kiko-label">Message *</label>
+                        <textarea name="message" class="kiko-input" rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="kiko-btn">SUBMIT INQUIRY</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-col">
+                <h4>HELP & SUPPORT</h4>
+                <ul>
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Store Locator</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>ABOUT KIKO</h4>
+                <ul>
+                    <li><a href="#">Our Brand</a></li>
+                    <li><a href="#">Press Releases</a></li>
+                    <li><a href="#">Store Locations</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>JOIN OUR NEWSLETTER</h4>
+                <p>Sign up to get the latest beauty news and offers.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" class="email-input">
+                    <button class="btn-primary subscribe-btn">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>

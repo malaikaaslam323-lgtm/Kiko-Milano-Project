@@ -1,0 +1,1463 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    
+}
+
+body {
+    background-color: #ffffff;
+    color: #000000;
+    min-width: 360px;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+/* --- 1. Dark Top Bar --- */
+.top-bar {
+    background-color: #222222; /* Dark background matching the image */
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 30px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* Give left and right equal space to center the middle text perfectly */
+.top-left, .top-right { flex: 1; }
+.top-center { flex: 2; text-align: center; }
+.top-right { text-align: right; }
+
+
+/* --- 2. Site Header & Middle Row --- */
+.loc{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+.loc img{
+    width: 14px;
+    height: auto;
+}
+.site-header {
+    background-color: #ffffff;
+    width: 100%;
+}
+
+.header-middle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 40px;
+}
+
+/* Flexbox trick to perfectly center the logo */
+.header-left, .header-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+.header-left { justify-content: flex-start; }
+.header-right { 
+    justify-content: flex-end; 
+    gap: 20px; /* Space between the icons */
+    font-size: 24px; /* Makes the icons bigger */
+}
+
+/* Search Bar Styling */
+.search-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd; /* Light gray underline */
+    padding-bottom: 5px;
+    width: 200px;
+}
+
+.search-icon {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #555;
+}
+
+
+.search-input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+    background: transparent;
+}
+
+/* Logo Styling */
+.logo {
+    text-align: center;
+}
+.logo h1 {
+    font-size: 42px;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.logo h2 {
+    font-size: 12px;
+    letter-spacing: 6px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+/* Cart Icon and Pink Badge */
+.icon { cursor: pointer;
+        color:#000000;
+        display: flex;
+        align-items: center;
+        transition: color 0.3s; }
+.icon:hover {
+    color: #555555; /* Turns slightly grey when hovered over */
+}
+
+/* Ensure the SVG shapes scale correctly */
+.icon svg {
+    display: block;
+}
+
+.cart-icon-container {
+    position: relative; /* Allows the badge to sit on top of the bag */
+    display: flex;
+    align-items: center;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #ffe4e1; /* The exact light pink color */
+    color: #000;
+    font-size: 11px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%; /* Makes it a perfect circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* --- 3. Light Pink Navigation Row --- */
+.navbar{
+    background-color: #fce4ec;
+    position: relative; /* Crucial: Keeps the dropdown attached to this bar later */
+}
+.nav-links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:40px;
+    padding: 15px 50px;
+    transition: max-height 0.4s ease-in-out; /* Smooth slide animation */
+}
+.nav-links a{
+    color: #000000;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.nav-links a:hover{
+color: #ff1493; /* Turns hot pink when pointed at */
+}
+/* Hide the hamburger button on big screens */
+.hamburger{
+    display: none;
+    cursor: pointer;
+    padding: 15px 20px;
+}
+.hamburger .bar{
+    display: block;
+    width: 25px;
+    height:3px;
+    background-color: #000000;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out; /* Animates the lines turning into an 'X' */
+}
+/* Hero Banner Section */
+.hero {
+    height: 80vh;
+    background-image: url('weban2.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10%;
+   
+}
+
+
+.btn-primary {
+    display: inline-block;
+    background-color: #000;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #333;
+}
+
+/* Bestsellers Section */
+.bestsellers {
+    padding: 60px 50px;
+    text-align: center;
+    background-color: #fdf2f3;
+}
+
+.section-title{
+    font-size: 55px ;/*ade it much larger to match the reference image */
+    font-weight: 500; /* Gives 'KIKO' a medium thickness */
+    letter-spacing: 9px;/*de spacing for that expensive look */
+    margin-bottom: 50px;
+    color: #222222;
+    text-transform: uppercase;
+}
+
+.section-title span {
+    font-weight: 300; /* This applies a very light/thin font weight */
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.product-card {
+    text-align: left;
+}
+
+.product-card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.product-category {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.product-card h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px; /* Clean, modern size */
+    font-weight: 500; /* Bold, premium weight */
+    margin-bottom: 10px;
+    height: auto;
+    min-height: 40px;
+}
+
+.price {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.centered-text {
+    text-align: center; /* THE FIX: Centers title and price universally */
+    width: 100%;
+}
+.btn-secondary {
+    float: left;
+    width: auto;
+    background-color: black;
+    border-radius: 7px;
+    border: 1px solid #000;
+    padding: 12px 25px;
+    color: #f8f8f8;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.card-action {
+    display: flex;
+    align-items: center; /* Centers them vertically */
+    justify-content: flex-start; /* Aligns them to the left */
+    gap: 15px; /* Creates the space between the button and the heart */
+}
+.like-icon{
+     font-size: 25px;
+     cursor: pointer;
+     transition: color 0.3s;
+}
+.like-icon:hover {
+    color: #ff1493; /* Optional: turns pink when hovered */
+    
+}
+
+.btn-secondary:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.view-all-btn{
+    display: inline-block;
+    background-color: #ffffff;
+    color:#111111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+   letter-spacing: 1px;
+   padding: 15px 50px;
+   /* THE FIX: These margins create the perfect gaps above and below! */
+    margin-top: 50px; 
+    margin-bottom: 20px; 
+    
+    border: 1px solid #eaeaea; /* Very subtle grey border */
+    border-radius: 6px; /* Soft rounded corners */
+    cursor: pointer;
+    
+    /* Creates the soft, floating shadow seen in the reference image */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+    transition: all 0.3s ease;
+}
+
+.btn-view-all:hover {
+    background-color: #fcfcfc;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Shadow grows slightly when hovered */
+    transform: translateY(-2px); /* Button lifts up slightly */
+}
+
+/* --- Top Categories Section --- */
+.top-categories{
+    background-color: #fffafb; 
+    padding: 60px 0; /* Removes side padding so items can swipe off the screen naturally */
+    text-align: center;
+}
+.top-categories h2 {
+    font-size: 24px;
+    letter-spacing: 4px;
+    font-weight: 500;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+.category-grid {
+    display: flex;
+    flex-wrap: nowrap; /* FORCES them to stay in ONE horizontal line! */
+    gap: 20px;
+    padding: 0 40px; /* Gives some breathing room on the edges */
+    
+    /* THE MAGIC: Enables horizontal scrolling/swiping WITHOUT Javascript */
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; /* Makes the swiping magnetically snap into place */
+    scroll-behavior: smooth;
+    
+    /* Hides the ugly default browser scrollbar for a seamless look */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+/* Hides the scrollbar in Chrome, Safari, and Edge */
+.category-grid::-webkit-scrollbar { 
+    display: none; 
+}
+/* --- The Individual Items --- */
+.category-item {
+    /* DESKTOP: Shows about 4 images perfectly (100% / 4 = ~23%) */
+    flex: 0 0 23%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    scroll-snap-align: center; /* Snaps the image to the center of the screen when swiping stops */
+}
+
+.category-item:hover .category-img-wrapper {
+    transform: translateY(-5px); /* Subtle hover lift */
+}
+
+.category-img-wrapper img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.category-item p {
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #333;
+    font-weight: 500;
+}
+/* =========================================
+   AUTHENTIC KIKO MILANO PRODUCT CARDS
+   ========================================= */
+   /* =========================================
+   KIKO PREMIUM HEADER SEARCH
+   ========================================= */
+.main-search-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 450px; /* Makes the search bar nice and wide */
+}
+
+.main-search-input {
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    width: 100%;
+    padding: 10px 5px;
+    background: transparent;
+}
+
+.main-search-input::placeholder {
+    color: #999;
+    font-weight: 300;
+}
+
+/* Adjust the header layout to perfectly balance the 3 sections */
+.header-middle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.header-left { flex: 1; }
+.logo { flex: 1; text-align: center; }
+.header-right { flex: 1; justify-content: flex-end; }
+/* =========================================
+   KIKO PREMIUM FILTER BAR
+   ========================================= */
+.kiko-filter-bar {
+    background-color: #ffffff;
+    border-top:none;
+    border-bottom: 1px solid #eaeaea;
+    padding: 15px 50px;;
+    margin-bottom: 20px;
+}
+
+.kiko-filter-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.kiko-filter-input {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    outline: none;
+    background-color: #fafafa;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+.kiko-filter-input:focus {
+    border-color: #000;
+    background-color: #fff;
+}
+
+.price-input {
+    width: 120px;
+}
+
+.kiko-filter-btn {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+    padding: 12px 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.kiko-filter-btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.kiko-product-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    transition: box-shadow 0.3s ease;
+    position: relative;
+}
+
+/* Adds a soft floating shadow when hovering over the card */
+.kiko-product-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* The soft grey box behind the image */
+/* The soft grey box behind the image */
+.kiko-image-container {
+    position: relative;
+    width: 100%;
+    height: 260px; /* Forces all boxes to be exactly the same height */
+    background-color: #f7f7f7; 
+    padding: 20px; /* Gives the products nice breathing room so they aren't congested */
+    margin-bottom: 20px;
+    
+    /* FLEXBOX MAGIC: Forces the image to stay perfectly dead-center */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+}
+
+.kiko-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+    
+    /* ✨ THE SECRET WEAPON ✨ 
+       This deletes the white/grey borders from your screenshots and 
+       blends the product directly into the background! */
+    mix-blend-mode: multiply; 
+}
+
+/* Subtle zoom effect on the image when hovering */
+.kiko-product-card:hover .kiko-image-container img {
+    transform: scale(1.12); /* Gentle, luxurious zoom */
+}
+
+/* Update the hover zoom to be slightly larger so the animation still works */
+.kiko-product-card:hover .kiko-image-container img {
+    transform: scale(1.25);
+}
+
+/* Subtle zoom effect on the image when hovering */
+.kiko-product-card:hover .kiko-image-container img {
+    transform: scale(1.08);
+}
+
+/* Floating Heart Icon */
+.kiko-wishlist {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #111;
+    z-index: 10;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.kiko-wishlist:hover {
+    color: #ff1493; /* Kiko Pink */
+    transform: scale(1.1);
+}
+
+/* Floating Badge (e.g. BEST SELLER) */
+.kiko-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #000;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 5px 10px;
+    letter-spacing: 1.5px;
+    z-index: 10;
+    text-transform: uppercase;
+}
+
+.kiko-product-info {
+    padding: 0 15px 20px 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Pushes the button to the bottom evenly */
+}
+
+.kiko-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 10px;
+    min-height: 40px; /* Keeps text aligned even if names are long */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+.kiko-price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 12px;
+}
+
+.kiko-rating {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* Full Width Authentic Button */
+.kiko-add-btn {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+    padding: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    margin-top: auto; /* Forces button to the absolute bottom of the card */
+}
+
+/* Sleek Invert on Hover */
+.kiko-add-btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+/* =========================================
+   BOTTOM PILL FILTER & SORT (KIKO STYLE)
+   ========================================= */
+.kiko-bottom-actions-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+    position: relative;
+    z-index: 100;
+}
+
+/* The Soft Pink Pill */
+.kiko-action-pill {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to right, #fff0f3, #fdf5f6);
+    border-radius: 50px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.kiko-pill-btn {
+    background: transparent;
+    border: none;
+    padding: 18px 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s;
+}
+
+.kiko-pill-btn:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.pill-divider {
+    width: 1px;
+    height: 25px;
+    background-color: #e8d0d5;
+}
+
+/* The Hidden Filter Popup Cards */
+.kiko-filter-popup {
+    display: none; /* Hidden by default! */
+    width: 100%;
+    max-width: 700px;
+    animation: slideUpFade 0.4s ease forwards;
+}
+
+.kiko-filter-popup.active {
+    display: block; /* Shown when JS adds this class */
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Individual White Cards */
+.filter-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    padding: 25px;
+    flex: 1;
+    min-width: 250px;
+    border: 1px solid #f0f0f0;
+}
+
+.filter-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-card-header h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin: 0;
+}
+
+.filter-card-header a {
+    font-size: 12px;
+    text-decoration: underline;
+    color: #666;
+}
+
+/* Checkbox & Inputs */
+.filter-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+}
+
+.price-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.price-inputs input {
+    width: 80px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+}
+
+.go-btn {
+    background: #222;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.go-btn:hover {
+    background: #000;
+}
+/* --- BOTTOM POPUP ACTION BAR --- */
+.kiko-popup-bottom-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-top: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.popup-clear-btn {
+    background-color: #fff0f3;
+    color: #111;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 15px 30px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.popup-clear-btn:hover {
+    background-color: #fce4ec;
+}
+
+.popup-view-btn {
+    background-color: #222;
+    color: #fff;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.popup-view-btn:hover {
+    background-color: #000;
+}
+
+
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+   ========================================= */
+
+/* --- Our Brand Section --- */
+.brand-section {
+    padding: 30px 50px; /* Gives plenty of breathing room top and bottom */
+    background-color: #ffffff;
+}
+
+/* Flexbox container to put image and text side-by-side */
+.brand-container {
+    display: flex;
+    align-items: center; /* Centers the text vertically compared to the image */
+    justify-content: center;
+    gap: 60px; /* Space between the image and the text */
+    max-width: 1000px; /* Keeps the section from stretching too wide on huge screens */
+    margin: 0 auto; /* Centers the whole container on the page */
+}
+
+/* Make both sides take up exactly 50% of the space */
+.brand-img, .brand-content {
+    width: 50%;
+    flex: 1;
+}
+
+/* Style the image to have rounded corners */
+.brand-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px; /* Creates the smooth rounded corners seen in the image */
+    display: block;
+}
+
+/* Style the text column */
+.brand-content {
+    text-align: center; /* Centers the text inside its column */
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* The soft gradient "OUR BRAND" pill badge */
+.brand-badge {
+    background: linear-gradient(to right, #ffe1e8, #f0e6ff); /* Soft pink to soft purple */
+    color: #555;
+    padding: 8px 20px;
+    border-radius: 20px; /* Makes it pill-shaped */
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+/* The Heading */
+.brand-content h2 {
+    font-size: 40px;
+    color: #222;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* The Paragraph */
+.brand-content p {
+    font-size: 15px;
+    line-height: 1.6; /* Adds space between lines of text to make it readable */
+    color: #555;
+    max-width: 90%; /* Stops the text from touching the absolute edges of its column */
+}
+
+/* Flexbox to line up the 5 items perfectly */
+/* Footer  second last*/
+.deliver{
+    background-color: #ffffff;
+    padding: 60px 20px;
+}
+.deliver-container{
+    display: flex;
+    align-items: flex-start; /* Aligns them at the top, just in case one text is longer than the others */
+    justify-content: center;
+    gap:40px ;
+    max-width: 1100px;
+    margin:0  auto;
+}
+.deliver-item{
+    flex: 1; /* all have samw width*/
+    display: flex;
+    flex-direction: column; /* Stacks the image on top of the text */
+    align-items: center; /* Centers the content horizontally */
+    text-align: center; /* Centers the paragraph text */
+    padding: 0 15px;
+    min-width: 0;
+}
+.deliver-item img{
+    width: 50px;
+    height: auto;
+    margin-bottom: 20px;
+}
+.deliver-container p{
+    font-size: 11px;
+    line-height: 1.6;
+    color:#111111;
+    font-weight: 800;
+    letter-spacing: 2.5px; /* THE SECRET SAUCE: Widespace tracking */
+    text-transform: uppercase;
+
+}
+
+/* Footer */
+footer {
+    background-color: #f8f8f8;
+    padding: 60px 50px 20px;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.footer-col h4 {
+    font-family: 'Montserrat', sans-serif; /* Forces the luxury font */
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: #555;
+    font-size: 14px;
+}
+.footer-col p {
+    font-family: 'Montserrat', sans-serif; /* Forces the luxury font */
+    font-size: 17px;
+    letter-spacing: 1px;
+    font-weight: 400; /* Normal, clean thickness */
+    line-height: 1.5; /* Gives the text room to breathe vertically */
+    color: #333;
+    margin-bottom: 25px; /* THE FIX: This creates the large gap above the input box! */
+}
+
+.email-input {
+    flex: 2; 
+    margin: 0; 
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 4px; /* Matches Kiko's slightly soft edges */
+    
+    /* THE MAGIC: Forces the input to use the luxury font! */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.subscribe-btn {
+    flex: 1; 
+    width: auto; 
+    margin: 0;
+    padding: 13px 15px;
+    border-radius: 4px; /* Matches the input box corners */
+    
+    /* THE MAGIC: Forces the button to use the luxury font! */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500; /* A cleaner, medium thickness instead of ultra-bold */
+    letter-spacing: 0.5px;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+
+}
+/* --- Footer Bottom Section --- */
+.footer-bottom {
+    display: flex;
+    align-items: center; /* THE FIX: perfectly centers items vertically */
+    justify-content: flex-start; /* Aligns everything to the left side */
+    gap: 15px; /* Reduced the gap to bring the icons closer to the text */
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    font-size: 13px;
+    color: #555;
+}
+
+/* Strip away the default paragraph margin */
+.footer-bottom p {
+    margin: 0; 
+    font-size: 10px;
+    font-weight: 400; /* THE FIX: Explicitly forces it to NOT be bold like Kiko Milano */
+    color: #555;
+    letter-spacing: 1px;
+}
+
+/* Control the icon sizes so they don't stretch */
+.footer-bottom img {
+    width: 35px; /* Adjust this number if your icons feel too big or small */
+    height: auto;
+    cursor: pointer;
+    transition: opacity 0.7s;
+}
+
+/* Optional: Adds a nice hover effect to the social icons */
+.footer-bottom img:hover {
+    opacity: 0.7;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================= */
+
+/* --- TABLET SCREENS (Max width: 992px) --- */
+
+@media (max-width: 992px) {
+    .category-item {
+        flex: 0 0 30%; /* TABLETS: Shows 3 images per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .category-grid {
+        padding: 0 20px; 
+        gap: 15px;
+    }
+    .category-item {
+        flex: 0 0 45%; /* MOBILE: Shows exactly 2 images perfectly scaled! */
+    }
+}
+@media (max-width: 992px) {
+    /* 1. KIKO MOST LOVED: Shrink from 4 columns to 2 columns */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* 2. Our Brand Section: Stack the image on top of the text */
+    .brand-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .brand-image, .brand-content, .brand-image img {
+        width: 100%; /* Forces them to take up the full screen width */
+    }
+    
+    .brand-content {
+        margin-top: 40px;
+    }
+
+    /* 3. Footer: Shrink from 4 columns to 2 columns */
+    .footer-columns {
+        flex-wrap: wrap; /* Allows columns to drop to the next line */
+    }
+    
+    .footer-col {
+        width: 45%; /* Two columns side-by-side */
+        margin-bottom: 40px;
+    }
+}
+
+/* --- MOBILE PHONES (Max width: 768px) --- */
+@media (max-width: 768px) {
+    .hero {
+        height: 50vh; /* Takes up 50% of the screen instead of 80% */
+        background-position: center top; /* Keeps the most important part of the image in view */
+    }
+    bestsellers {
+        padding: 40px 15px; /* Drastically reduces side padding to give products more room */
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* FORCES exactly 2 columns */
+        gap: 15px; /* Smaller gap for mobile */
+    }
+
+    .product-card img {
+        height: 220px; /* Shrinks the image height so they don't look awkwardly tall */
+        margin-bottom: 10px;
+    }
+
+    .product-card h4 {
+        font-size: 13px; /* Shrinks product title */
+        min-height: 40px; 
+    }
+
+    .price {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .btn-secondary {
+        padding: 10px 5px; /* Makes the button smaller so it fits in the column */
+        font-size: 11px; /* Smaller button text */
+    }
+    /* 1. Top Bar: FORCE INLINE & SHRINK ELEMENTS */
+    .top-bar {
+        display: flex; /* Overrides column direction on mobile */
+        flex-direction: row !important; /* Strictly forces a single row */
+        flex-wrap: nowrap; /* Prevents wrapping to a second line */
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px; /* Tiny gap to save space */
+        padding: 5px 10px;
+        font-size: 10px; /* Much smaller font to fit on one line */
+    }
+    
+    .top-left, .top-center, .top-right {
+        text-align: left; /* Keep left and right content against the edge */
+    }
+    
+    .loc span, .top-right span {
+        font-size: 10px; /* Forces all text elements to be tiny */
+    }
+
+    /* 2. Site Header: FORCE INLINE & SHRINK ELEMENTS */
+    .header-middle {
+        display: flex;
+        flex-direction: row !important; /* Strictly forces a single row */
+        flex-wrap: nowrap; /* Prevents wrapping to a second line */
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px; /* Tiny gap to save space */
+        padding: 5px 15px;
+    }
+    
+    .header-left, .header-right {
+        flex: 1;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    
+    .header-right { 
+        justify-content: flex-end; 
+        gap: 10px; /* Bring icons closer together */
+        font-size: 18px; /* Makes icons smaller to save space */
+    }
+    
+    .search-container {
+        width: auto; /* Let the search bar be flexible and shrink */
+        min-width: 100px;
+    }
+
+    /* 3. Navigation Links: Allow them to wrap into multiple lines */
+    /* 1. Show the Hamburger icon */
+    .hamburger{
+        display: block;
+        padding: 10px; /* Gives you a bigger touch area */
+        margin-left: 10px;
+    }
+    /* Fix 1: Added display: flex so the hamburger moves to the left */
+    .navbar{
+        display: flex;
+        justify-content: flex-start;
+        padding: 10px 20px;
+        z-index: 999; /* Increased slightly to guarantee it sits on top */
+    }
+    /* 2. Hide & Restructure the Links */
+    .nav-links{
+        flex-direction: column; /* Stack links top-to-bottom */
+        position: absolute;/* Take it out of normal flow */
+        top: 100%; /* Drop it exactly below the pink bar */
+        left: 0;
+        width: 100%;
+        background-color: #fce4ec;
+        gap: 0;
+        padding: 0;
+
+/* The hiding trick: Set height to 0 and hide anything that spills out */
+        max-height: 0;
+        overflow: hidden;
+        z-index: 9998;/* Ensures the menu floats OVER the images below it */
+    }
+    /* 3. The Active Class (Added by JavaScript when clicked) */
+    .nav-links.active{
+        max-height: 500px; /* Expands the box smoothly to show links! */
+    }
+    /* 4. Touch-Friendly Mobile Links */
+    .nav-links a{
+        padding: 15px 20px;
+        width: 100%;
+        text-align: center;
+         font-size: 14px; /* Larger font for easy tapping */
+    }
+/* 5. BONUS: Turn the Hamburger into an 'X' when open */
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0; /* Middle line vanishes */
+    }
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    .brand-section{
+        padding:40px 20px; /* reduce side paddinf for small phones*/
+    }
+    
+    .brand-container{
+        flex-direction: column-reverse;
+        gap: 30px;
+        text-align: center;
+    }
+    .brand-img,.brand-content{
+        width: 100%;
+    }
+
+    /* 5. Headings: Shrink typography sizes */
+    .logo h1 { font-size: 28px; }
+    .section-title { font-size: 28px; letter-spacing: 3px; }
+
+    /* 6. Delivery Section: Stack the items vertically */
+    .deliver{
+        padding: 30px 5px;
+    }
+    .deliver-container {
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 5px;
+        
+    }
+    .deliver-item {
+        padding: 0 5px;
+    }
+    .deliver-item img {
+        width: 30px; /* Shrink the icon */
+        margin-bottom: 10px;
+    }
+    .deliver-container p {
+        font-size: 8px; /* Very small text so it all fits on one line */
+        letter-spacing: 1px;
+    }
+
+    /* 7. Footer: Shrink from 2 columns to 1 single column */
+    footer {
+        padding: 40px 20px; 
+    }
+
+    .footer-columns {
+        display: flex;
+        flex-direction: column; /* Stacks columns vertically */
+    }
+
+    /* 1. MAGIC REORDERING: Move Newsletter to the top! */
+    .footer-col:nth-child(1) { order: 2; } /* Help moves to middle */
+    .footer-col:nth-child(2) { order: 3; } /* About moves to bottom */
+    .footer-col:nth-child(3) { 
+        order: 1; /* Newsletter jumps to the top! */
+        margin-bottom: 40px; 
+    }
+    .footer-col {
+        width: 100%;
+        text-align: left;
+    }
+    /* 2. Side-by-Side Newsletter Input & Button */
+    .newsletter-form {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .email-input {
+        margin: 0;
+        flex: 2; /* Takes up more space */
+        border-radius: 4px; /* Slight rounding like Kiko */
+    }
+
+    .subscribe-btn {
+        flex: 1; /* Takes up less space */
+        width: auto;
+        padding: 12px;
+        margin: 7px;
+        border-radius: 4px;
+    }
+
+    /* 3. Accordion Look for Help & About */
+    .footer-col:nth-child(1) h4,
+    .footer-col:nth-child(2) h4 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #000; /* Adds the black line */
+        padding-bottom: 15px;
+        margin-bottom: 0; 
+        font-weight: bold;
+    }
+
+    /* Magically add the '+' symbol */
+    .footer-col:nth-child(1) h4::after,
+    .footer-col:nth-child(2) h4::after {
+        content: '+';
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    /* Hide the lists so it looks 'collapsed' */
+    .footer-col ul {
+        display: none; 
+    }
+
+    /* 4. Social Icons Horizontal Fix */
+    .footer-bottom {
+        flex-direction: row !important; /* Force icons to stay on one line */
+        justify-content: center !important; /* Center perfectly */
+        border-top: none; /* Remove top border to match image */
+        margin-top: 20px;
+    }
+    
+}
+
+/* --- SMALL MOBILE PHONES (Max width: 480px) --- */
+@media (max-width: 480px) {
+
+    .section-title { font-size: 24px; letter-spacing: 2px; margin-bottom: 30px; }
+    
+    /* Make product text a tiny bit smaller to prevent wrapping issues */
+    .product-card h4 { font-size: 12px; }
+    .btn-secondary { font-size: 10px; }
+}
+/* =========================================
+   RESPONSIVE DESIGN FOR KIKO CARDS
+   ========================================= */
+
+/* --- TABLETS (Max width: 992px) --- */
+@media (max-width: 992px) {
+    .kiko-image-container img {
+        height: 200px; /* Slightly shorter to fit tablet screens better */
+    }
+}
+
+/* --- MOBILE PHONES (Max width: 768px) --- */
+@media (max-width: 768px) {
+    .kiko-filter-bar {
+        padding: 15px 20px;
+    }
+    .kiko-filter-form {
+        flex-direction: row; 
+        gap: 10px;
+    }
+    .kiko-filter-input, .price-input {
+        width: 48%; 
+        padding: 10px;
+        font-size: 11px;
+    }
+    .kiko-image-container {
+        padding: 20px 10px; /* Less grey space around the image */
+        margin-bottom: 10px;
+    }
+
+    .kiko-image-container img {
+        height: 160px; /* Much shorter so the 2-column grid doesn't look stretched */
+    }
+
+    /* Shrink the floating icons so they don't cover the makeup */
+    .kiko-wishlist {
+        font-size: 20px; 
+        top: 10px;
+        right: 10px;
+    }
+
+    .kiko-badge {
+        font-size: 8px; 
+        padding: 4px 6px;
+        top: 10px;
+        left: 10px;
+    }
+
+    .kiko-product-info {
+        padding: 0 10px 15px 10px; /* Tighter padding for narrow columns */
+    }
+
+    /* Adjust typography for smaller screens */
+    .kiko-title {
+        font-size: 11px; 
+        min-height: 35px; /* Adjust height so titles still line up */
+        margin-bottom: 5px;
+    }
+
+    .kiko-price {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .kiko-rating {
+        font-size: 9px;
+        margin-bottom: 12px;
+    }
+
+    /* Shrink the button so it fits nicely */
+    .kiko-add-btn {
+        padding: 10px;
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+}
+
+/* --- SMALL MOBILE PHONES (Max width: 480px) --- */
+@media (max-width: 480px) {
+    .kiko-image-container img {
+        height: 130px; /* Prevents the image from looking awkwardly tall on tiny screens */
+    }
+    
+    .kiko-title {
+        font-size: 10px; /* Extra small text to prevent weird word wrapping */
+    }
+}

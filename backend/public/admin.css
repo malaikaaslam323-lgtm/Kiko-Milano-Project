@@ -1,0 +1,499 @@
+/* =========================================
+   KIKO MILANO - PREMIUM ACCENTED ADMIN PANEL
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body { 
+    font-family: 'Montserrat', sans-serif; 
+    background-color: #fafafa; 
+    color: #111111;
+    padding-bottom: 100px;
+}
+
+/* --- Premium Admin Header Layout --- */
+.admin-top-bar {
+    background-color: #222222;
+    color: #ffffff;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+.admin-site-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 15px 50px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header-side-left, .header-side-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.header-side-right {
+    justify-content: flex-end;
+}
+
+.admin-logo {
+    flex: 1;
+    text-align: center;
+}
+
+.admin-logo img {
+    height: 45px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.admin-badge-indicator {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background-color: #222;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 3px;
+}
+
+.return-store-btn {
+    text-decoration: none;
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s;
+}
+
+.return-store-btn:hover {
+    color: #ff1493;
+}
+
+/* --- Action Title Bar Block --- */
+.dashboard-action-bar {
+    max-width: 1400px;
+    margin: 40px auto 30px auto;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.title-block h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.title-block p {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #888;
+}
+
+.btn-add-new-product {
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 14px 28px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    border: 1px solid #000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.btn-add-new-product:hover {
+    background-color: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+}
+
+.admin-nav-btn {
+    background-color: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    padding: 12px 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    border: 1px solid #000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.admin-nav-btn:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* --- High-End Accented Stats Grid --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto 40px auto;
+    padding: 0 50px;
+}
+
+.stat-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Injecting the signature soft pink palette into the main inventory total card */
+.stat-card.highlighted-card {
+    background-color: #fce4ec; /* Matches your navbar color exactly */
+    border-color: #f8ccd9;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
+}
+
+.stat-info { display: flex; flex-direction: column; }
+
+.stat-title {
+    font-size: 10px;
+    color: #777;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #111;
+}
+
+.stat-icon-wrapper {
+    font-size: 28px;
+    background: #fafafa;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+}
+
+.highlighted-card .stat-icon-wrapper {
+    background: #ffffff;
+    border-color: #f3b1c4;
+}
+
+/* --- Clean Modernized Table Structure --- */
+.table-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+.admin-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    background: #ffffff; 
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    overflow: hidden;
+}
+
+.admin-table th { 
+    background-color: #fce4ec; /* Added theme pink to the header row */
+    color: #111; 
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3ccd7;
+}
+
+.admin-table td { 
+    padding: 16px 20px; 
+    border-bottom: 1px solid #f5f5f5; 
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.table-thumb-container {
+    width: 60px;
+    height: 60px;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.thumb { 
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+    mix-blend-mode: multiply;
+}
+
+.product-name-cell {
+    font-weight: 600;
+    color: #000;
+}
+
+.category-pill {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background-color: #f1f1f1;
+    padding: 4px 10px;
+    border-radius: 50px;
+    color: #555;
+}
+
+.price-cell {
+    font-weight: 700;
+    color: #222;
+}
+
+.stock-count {
+    font-weight: 600;
+}
+
+.low-stock-alert {
+    color: #ff1493; /* Signature hot pink color alert */
+    font-weight: 800;
+}
+
+/* --- Clean Luxury Action Menu Row --- */
+.action-btns { 
+    display: flex; 
+    gap: 8px; 
+    justify-content: center;
+}
+
+.btn-action-edit, .btn-action-delete { 
+    padding: 8px 16px; 
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none; 
+    border-radius: 4px; 
+    transition: all 0.2s ease;
+}
+
+.btn-action-edit { 
+    background-color: transparent; 
+    color: #000000; 
+    border: 1px solid #000000;
+}
+
+.btn-action-edit:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.btn-action-delete { 
+    background-color: #222222; 
+    color: #ffffff; 
+    border: 1px solid #222222;
+    cursor: pointer; 
+    font-family: inherit;
+}
+
+.btn-action-delete:hover { 
+    background-color: #ff1493; /* Luxury Hot pink for dangerous operations */
+    border-color: #ff1493;
+}
+
+/* --- Alerts and Feedback --- */
+.alert { 
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 15px; 
+    border-radius: 4px; 
+    font-weight: 600;
+    font-size: 13px;
+    text-align: center;
+}
+
+.alert-success { 
+    background-color: #fdf2f3; 
+    color: #000;
+    border: 1px solid #fce4ec;
+}
+
+/* =========================================
+   ✨ ADDED: LUXURY PRODUCT FORM STYLES
+========================================= */
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
+    padding: 40px 20px;
+}
+
+.form-container { 
+    background: #ffffff; 
+    padding: 50px; 
+    border-radius: 8px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03); 
+    width: 100%; 
+    max-width: 600px; 
+    border: 1px solid #eaeaea;
+}
+
+.form-container h2 {
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    color: #000000;
+}
+
+.form-group { 
+    margin-bottom: 25px; 
+}
+
+.form-group label { 
+    display: block; 
+    font-weight: 700; 
+    margin-bottom: 10px; 
+    font-size: 11px; 
+    color: #222222;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea { 
+    width: 100%; 
+    padding: 14px 18px; 
+    border: 1px solid #dddddd; 
+    border-radius: 4px; 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+    outline: none;
+    color: #111111;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    border-color: #000000;
+    background-color: #ffffff;
+}
+
+.btn-submit { 
+    background-color: #000000; 
+    color: #ffffff; 
+    padding: 16px; 
+    width: 100%; 
+    border: 1px solid #000000; 
+    border-radius: 4px;
+    cursor: pointer; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; 
+    margin-top: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover { 
+    background-color: #ffffff; 
+    color: #000000; 
+}
+
+.cancel-link {
+    display: block; 
+    text-align: center; 
+    margin-top: 20px; 
+    color: #777777;
+    text-decoration: underline;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+.cancel-link:hover {
+    color: #ff1493;
+}
+
+/* =========================================
+   MOBILE DESIGN ADJUSTMENTS
+========================================= */
+@media (max-width: 992px) {
+    .dashboard-action-bar, .table-container, .stats-grid {
+        padding: 0 20px;
+    }
+    .header-container { padding: 0 20px; }
+}
+
+@media (max-width: 768px) {
+    .dashboard-action-bar { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 20px; 
+    }
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .action-btns {
+        flex-direction: column;
+    }
+    .form-container {
+        padding: 30px 20px;
+    }
+}

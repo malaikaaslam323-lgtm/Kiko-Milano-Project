@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Bag - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/first.css">
+    <link rel="stylesheet" href="/ecommerce.css">
+</head>
+<body>
+
+    <!-- Header Partial -->
+    <%- include('partials/header') %>
+
+    <div class="cart-wrapper">
+        <h1 class="cart-title">Your Shopping Bag</h1>
+
+        <!-- Alert messages -->
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="flash-msg flash-success"><%= success_msg %></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+                <div class="flash-msg flash-error"><%= error_msg %></div>
+            <% } %>
+        </div>
+
+        <% if (cartItems.length === 0) { %>
+            <div class="empty-cart-message">
+                <h3>Your shopping bag is currently empty.</h3>
+                <a href="/products" class="btn-primary" style="text-decoration: none; display: inline-block;">CONTINUE SHOPPING</a>
+            </div>
+        <% } else { %>
+            <div class="cart-layout">
+                <!-- Left: Cart Items -->
+                <div class="cart-items-section">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cartItems.forEach(item => { %>
+                                <tr>
+                                    <td>
+                                        <div class="cart-product-cell">
+                                            <a href="/products/<%= item.product._id %>">
+                                                <img src="/<%= item.product.image %>" class="cart-thumb" onerror="this.src='/Logo.webp'">
+                                            </a>
+                                            <div>
+                                                <a href="/products/<%= item.product._id %>" class="cart-product-name"><%= item.product.name %></a>
+                                                <div style="font-size: 11px; color: #888; margin-top: 5px; font-weight: 600;">Category: <%= item.product.category %></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="font-weight: 600;">PKR <%= item.product.price.toLocaleString() %></td>
+                                    <td>
+                                        <form action="/cart/update" method="POST" class="cart-qty-form">
+                                            <input type="hidden" name="productId" value="<%= item.product._id %>">
+                                            <input type="number" name="quantity" value="<%= item.quantity %>" min="1" max="<%= item.product.stock %>" class="cart-qty-input" required>
+                                            <button type="submit" class="cart-update-btn">Update</button>
+                                        </form>
+                                        <div style="font-size: 11px; color: #777; margin-top: 5px; font-weight: 500;"><%= item.product.stock %> left in stock</div>
+                                    </td>
+                                    <td style="font-weight: 700;">PKR <%= (item.product.price * item.quantity).toLocaleString() %></td>
+                                    <td>
+                                        <form action="/cart/remove" method="POST" style="margin:0;">
+                                            <input type="hidden" name="productId" value="<%= item.product._id %>">
+                                            <button type="submit" class="cart-remove-btn" title="Remove Item">&times;</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Right: Summary -->
+                <div class="cart-summary-section">
+                    <h2 class="summary-title">Order Summary</h2>
+                    
+                    <div class="summary-row">
+                        <span>Bag Subtotal</span>
+                        <span>PKR <%= subtotal.toLocaleString() %></span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Shipping Cost</span>
+                        <% if (shipping === 0) { %>
+                            <span style="color: #ff1493; font-weight: 700;">FREE</span>
+                        <% } else { %>
+                            <span>PKR <%= shipping.toLocaleString() %></span>
+                        <% } %>
+                    </div>
+
+                    <div style="font-size: 11px; color: #777; line-height: 1.4; margin-bottom: 20px;">
+                        * Shipping is free for orders over PKR 50,000.
+                    </div>
+
+                    <div class="summary-row total-row">
+                        <span>Total Amount</span>
+                        <span>PKR <%= total.toLocaleString() %></span>
+                    </div>
+
+                    <a href="/checkout" class="checkout-btn">PROCEED TO CHECKOUT</a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Footer Partial -->
+    <%- include('partials/footer') %>
+
+</body>
+</html>

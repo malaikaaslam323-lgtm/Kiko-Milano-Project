@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - KIKO MILANO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/first.css">
+    <link rel="stylesheet" href="/ecommerce.css">
+</head>
+<body>
+
+    <!-- Header Partial -->
+    <%- include('partials/header') %>
+
+    <div class="my-account-wrapper">
+        <div class="my-account-container">
+            <h1 class="my-account-title">MY ACCOUNT</h1>
+            <p class="my-account-subtitle">Manage your profile details and security settings below.</p>
+
+            <!-- Alerts -->
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="flash-msg flash-success" style="margin-bottom: 30px;"><%= success_msg %></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+                <div class="flash-msg flash-error" style="margin-bottom: 30px;"><%= error_msg %></div>
+            <% } %>
+
+            <form action="/my-account/update-profile" method="POST" class="my-account-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="form-group-spaced">
+                    <label class="kiko-label">Full Name *</label>
+                    <input type="text" name="name" value="<%= user.name %>" class="kiko-input" required autocomplete="name">
+                </div>
+
+                <div class="form-group-spaced" style="opacity: 0.7;">
+                    <label class="kiko-label">Email Address (Read Only)</label>
+                    <input type="email" value="<%= user.email %>" class="kiko-input" readonly disabled style="cursor: not-allowed;">
+                </div>
+
+                <div class="form-group-spaced" style="margin-top: 30px;">
+                    <div style="font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #222; margin-bottom: 15px;">CHANGE PASSWORD</div>
+                    
+                    <div class="form-group-spaced">
+                        <label class="kiko-label">New Password</label>
+                        <input type="password" name="password" class="kiko-input" placeholder="Leave blank to keep current password" autocomplete="new-password">
+                    </div>
+                </div>
+
+                <button type="submit" class="kiko-btn" style="margin-top: 20px;">UPDATE PROFILE</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <%- include('partials/footer') %>
+
+</body>
+</html>
