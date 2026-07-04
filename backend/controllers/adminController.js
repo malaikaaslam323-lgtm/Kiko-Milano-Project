@@ -1,6 +1,6 @@
-const Product = require('../models/Product');
+const Product = require('../models/product');
 const Order = require('../models/order');
-const User = require('../models/User'); // ✨ Import User model
+const User = require('../models/user'); // ✨ Import User model
 const Newsletter = require('../models/newsletter'); // ✨ Import Newsletter model
 const Campaign = require('../models/campaign'); // ✨ Import Campaign model
 const Review = require('../models/review'); // ✨ Import Review model
