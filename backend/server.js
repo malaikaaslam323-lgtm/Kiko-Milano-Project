@@ -51,6 +51,7 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use('/api/v1', apiRoutes);
 
 // 2. Set EJS & Static Files (Layouts removed!)
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public'))); 
 
