@@ -67,7 +67,7 @@ export default function Cart() {
                       )}
                     </td>
                     <td>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                         <input
                           type="number"
                           value={item.quantity}
@@ -75,11 +75,11 @@ export default function Cart() {
                           max={item.stock}
                           className="cart-qty-input"
                           onChange={(e) => updateCartQuantity(item._id, parseInt(e.target.value) || 1)}
-                          style={{ width: '60px', padding: '5px', textAlign: 'center' }}
+                          style={{ width: '65px', padding: '5px', textAlign: 'center', height: '35px' }}
                         />
-                      </div>
-                      <div style={{ fontSize: '11px', color: '#777', marginTop: '5px', fontWeight: '500' }}>
-                        {item.stock} left in stock
+                        <div style={{ fontSize: '11px', color: '#777', fontWeight: '500', whiteSpace: 'nowrap' }}>
+                          {item.stock} left in stock
+                        </div>
                       </div>
                     </td>
                     <td style={{ fontWeight: '700' }}>
