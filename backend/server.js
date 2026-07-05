@@ -45,7 +45,18 @@ app.use(nosqlSanitize); // Filter out NoSQL injection attempts recursively
 app.use(xssSanitize); // Sanitize inputs in request bodies to prevent XSS
 
 // Enable CORS for your React frontend
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like curl or postman)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true
+}));
 
 // 3. Mount Headless API Routes
 app.use('/api/v1', apiRoutes);
