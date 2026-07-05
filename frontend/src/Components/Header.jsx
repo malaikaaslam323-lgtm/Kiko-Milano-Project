@@ -146,23 +146,19 @@ export default function Header() {
           </div>
           <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
             {/* Mobile User Profile Links */}
-            <div className="mobile-user-links">
-              {user ? (
-                <>
-                  <span className="mobile-user-welcome" style={{ color: '#888', fontSize: '11px', fontWeight: 'bold', padding: '10px 20px', display: 'block', textTransform: 'uppercase', textAlign: 'center' }}>Hello, {user.name}</span>
-                  {user.role.toLowerCase() === 'admin' ? (
-                    <Link to="/admin" onClick={() => setMenuOpen(false)}>ADMIN PANEL</Link>
-                  ) : (
-                    <Link to="/dashboard" onClick={() => setMenuOpen(false)}>DASHBOARD</Link>
-                  )}
-                  <Link to="/my-account" onClick={() => setMenuOpen(false)}>MY ACCOUNT</Link>
-                  <button onClick={() => { logout(); setMenuOpen(false); }} className="mobile-logout-btn" style={{ width: '100%', background: 'none', border: 'none', color: '#ff1493', padding: '15px 20px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', textAlign: 'center', fontFamily: 'inherit' }}>LOGOUT</button>
-                </>
-              ) : (
-                <Link to="/login" onClick={() => setMenuOpen(false)}>LOGIN / REGISTER</Link>
-              )}
-              <hr style={{ border: 'none', borderTop: '1px solid #ffccd5', margin: '10px 0' }} />
-            </div>
+            {user && (
+              <div className="mobile-user-links">
+                <span className="mobile-user-welcome" style={{ color: '#888', fontSize: '11px', fontWeight: 'bold', padding: '10px 20px', display: 'block', textTransform: 'uppercase', textAlign: 'center' }}>Hello, {user.name}</span>
+                {user.role.toLowerCase() === 'admin' ? (
+                  <Link to="/admin" onClick={() => setMenuOpen(false)}>ADMIN PANEL</Link>
+                ) : (
+                  <Link to="/dashboard" onClick={() => setMenuOpen(false)}>DASHBOARD</Link>
+                )}
+                <Link to="/my-account" onClick={() => setMenuOpen(false)}>MY ACCOUNT</Link>
+                <button onClick={() => { logout(); setMenuOpen(false); }} className="mobile-logout-btn" style={{ width: '100%', background: 'none', border: 'none', color: '#ff1493', padding: '15px 20px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', textAlign: 'center', fontFamily: 'inherit' }}>LOGOUT</button>
+                <hr style={{ border: 'none', borderTop: '1px solid #ffccd5', margin: '10px 0' }} />
+              </div>
+            )}
 
             <Link to="/products" onClick={() => setMenuOpen(false)}>ALL MAKE UP</Link>
             <Link to="/products?category=FACE" onClick={() => setMenuOpen(false)}>FACE</Link>
