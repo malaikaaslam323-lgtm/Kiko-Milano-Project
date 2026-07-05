@@ -683,6 +683,84 @@
     .cart-wrapper {
         padding: 40px 15px;
     }
+    .cart-layout {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .cart-items-section {
+        padding: 20px 15px;
+    }
+    .cart-table, 
+    .cart-table thead, 
+    .cart-table tbody, 
+    .cart-table tr, 
+    .cart-table td {
+        display: block;
+        width: 100%;
+    }
+    .cart-table thead {
+        display: none;
+    }
+    .cart-table tr {
+        position: relative;
+        padding: 20px 0;
+        border-bottom: 1px solid #f2f2f2;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .cart-table tr:last-child {
+        border-bottom: none;
+    }
+    .cart-table td {
+        padding: 0 !important;
+        border-bottom: none !important;
+    }
+    .cart-table td:nth-child(1) {
+        margin-bottom: 5px;
+    }
+    .cart-table td:nth-child(2),
+    .cart-table td:nth-child(3),
+    .cart-table td:nth-child(4) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 13px;
+        padding-left: 100px !important;
+    }
+    .cart-table td:nth-child(2)::before {
+        content: "Price:";
+        font-weight: 700;
+        color: #777;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .cart-table td:nth-child(3)::before {
+        content: "Quantity:";
+        font-weight: 700;
+        color: #777;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .cart-table td:nth-child(4)::before {
+        content: "Total:";
+        font-weight: 700;
+        color: #777;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .cart-table td:nth-child(5) {
+        position: absolute;
+        top: 15px;
+        right: 0;
+        width: auto;
+    }
+    .cart-summary-section {
+        padding: 20px;
+    }
     .checkout-wrapper {
         padding: 40px 15px;
     }
