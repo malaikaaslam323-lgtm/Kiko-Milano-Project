@@ -565,11 +565,15 @@ async function seedDatabase() {
         await syncProductRatings();
 
         console.log(`✅ Update & Restore Complete: ${updatedCount} updated in-place, ${insertedCount} newly inserted. Total: ${kikoProducts.length} products.`);
-        process.exit(0);
+        return { success: true, updated: updatedCount, inserted: insertedCount };
     } catch (error) {
         console.error('Seeding error:', error);
-        process.exit(1);
+        throw error;
     }
 }
 
-seedDatabase();
+if (require.main === module) {
+    seedDatabase().then(() => process.exit(0)).catch(() => process.exit(1));
+}
+
+module.exports = { seedDatabase };

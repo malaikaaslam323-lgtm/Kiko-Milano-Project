@@ -598,3 +598,13 @@ exports.updateSettings = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error updating settings', error: err.message });
     }
 };
+
+exports.seedDatabase = async (req, res) => {
+    try {
+        const { seedDatabase } = require('../seedProducts');
+        const result = await seedDatabase();
+        res.json({ success: true, message: 'Database seeded successfully!', data: result });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Seeding failed', error: err.message });
+    }
+};
