@@ -187,6 +187,9 @@ color: #ff1493; /* Turns hot pink when pointed at */
     margin: 5px auto;
     transition: all 0.3s ease-in-out; /* Animates the lines turning into an 'X' */
 }
+.mobile-user-links {
+    display: none;
+}
 /* Hero Banner Section */
 .hero {
     height: 80vh;
@@ -1121,7 +1124,7 @@ footer {
         height: 50vh; /* Takes up 50% of the screen instead of 80% */
         background-position: center top; /* Keeps the most important part of the image in view */
     }
-    bestsellers {
+    .bestsellers {
         padding: 40px 15px; /* Drastically reduces side padding to give products more room */
     }
 
@@ -1165,6 +1168,10 @@ footer {
         text-align: left; /* Keep left and right content against the edge */
     }
     
+    .top-center {
+        display: none !important;
+    }
+    
     .loc span, .top-right span {
         font-size: 10px; /* Forces all text elements to be tiny */
     }
@@ -1184,6 +1191,14 @@ footer {
         flex: 1;
         justify-content: flex-start;
         width: 100%;
+    }
+    
+    .desktop-user-menu {
+        display: none !important;
+    }
+    
+    .mobile-user-links {
+        display: block !important;
     }
     
     .header-right { 
@@ -1307,7 +1322,10 @@ footer {
     }
     .footer-col {
         width: 100%;
-        text-align: left;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     /* 2. Side-by-Side Newsletter Input & Button */
     .newsletter-form {

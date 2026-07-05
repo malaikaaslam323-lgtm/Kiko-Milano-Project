@@ -75,42 +75,44 @@ export default function Header() {
           <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             
             {/* Conditional User Profile rendering */}
-            {user ? (
-              <>
-                {user.role.toLowerCase() === 'admin' ? (
-                  <Link to="/admin" style={{ textDecoration: 'none', color: '#ff1493', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>ADMIN PANEL</Link>
-                ) : (
-                  <Link to="/dashboard" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>DASHBOARD</Link>
-                )}
-                <Link to="/my-account" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginLeft: '12px' }}>MY ACCOUNT</Link>
-                <button 
-                  onClick={logout} 
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    color: 'black', 
-                    fontSize: '11px', 
-                    fontWeight: '700', 
-                    letterSpacing: '1px', 
-                    textTransform: 'uppercase', 
-                    marginLeft: '12px',
-                    cursor: 'pointer',
-                    fontFamily: 'inherit'
-                  }}
-                >
-                  LOGOUT
-                </button>
-              </>
-            ) : (
-              <Link to="/login" style={{ textDecoration: 'none', color: 'black', display: 'flex', alignItems: 'center' }}>
-                <span className="icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                </span>
-              </Link>
-            )}
+            <div className="desktop-user-menu" style={{ display: 'flex', alignItems: 'center' }}>
+              {user ? (
+                <>
+                  {user.role.toLowerCase() === 'admin' ? (
+                    <Link to="/admin" style={{ textDecoration: 'none', color: '#ff1493', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>ADMIN PANEL</Link>
+                  ) : (
+                    <Link to="/dashboard" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>DASHBOARD</Link>
+                  )}
+                  <Link to="/my-account" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginLeft: '12px' }}>MY ACCOUNT</Link>
+                  <button 
+                    onClick={logout} 
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      color: 'black', 
+                      fontSize: '11px', 
+                      fontWeight: '700', 
+                      letterSpacing: '1px', 
+                      textTransform: 'uppercase', 
+                      marginLeft: '12px',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit'
+                    }}
+                  >
+                    LOGOUT
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" style={{ textDecoration: 'none', color: 'black', display: 'flex', alignItems: 'center' }}>
+                  <span className="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </span>
+                </Link>
+              )}
+            </div>
             
             {/* Wishlist/Favorites Icon */}
           <Link to="/favorites" className="cart-icon-container" style={{ textDecoration: 'none', color: 'inherit', position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -144,13 +146,32 @@ export default function Header() {
             <span className="bar"></span>
           </div>
           <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
-            <Link to="/products">ALL MAKE UP</Link>
-            <Link to="/products?category=FACE">FACE</Link>
-            <Link to="/products?category=LIPS">LIPS</Link>
-            <Link to="/products?category=EYES">EYES</Link>
-            <Link to="/products?category=SKIN CARE">SKIN CARE</Link>
-            <Link to="/products?category=ACCESSORIES">ACCESSORIES</Link>
-            <Link to="/products?category=FRAGRANCE">FRAGRANCE</Link>
+            {/* Mobile User Profile Links */}
+            <div className="mobile-user-links">
+              {user ? (
+                <>
+                  <span className="mobile-user-welcome" style={{ color: '#888', fontSize: '11px', fontWeight: 'bold', padding: '10px 20px', display: 'block', textTransform: 'uppercase', textAlign: 'center' }}>Hello, {user.name}</span>
+                  {user.role.toLowerCase() === 'admin' ? (
+                    <Link to="/admin" onClick={() => setMenuOpen(false)}>ADMIN PANEL</Link>
+                  ) : (
+                    <Link to="/dashboard" onClick={() => setMenuOpen(false)}>DASHBOARD</Link>
+                  )}
+                  <Link to="/my-account" onClick={() => setMenuOpen(false)}>MY ACCOUNT</Link>
+                  <button onClick={() => { logout(); setMenuOpen(false); }} className="mobile-logout-btn" style={{ width: '100%', background: 'none', border: 'none', color: '#ff1493', padding: '15px 20px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', textAlign: 'center', fontFamily: 'inherit' }}>LOGOUT</button>
+                </>
+              ) : (
+                <Link to="/login" onClick={() => setMenuOpen(false)}>LOGIN / REGISTER</Link>
+              )}
+              <hr style={{ border: 'none', borderTop: '1px solid #ffccd5', margin: '10px 0' }} />
+            </div>
+
+            <Link to="/products" onClick={() => setMenuOpen(false)}>ALL MAKE UP</Link>
+            <Link to="/products?category=FACE" onClick={() => setMenuOpen(false)}>FACE</Link>
+            <Link to="/products?category=LIPS" onClick={() => setMenuOpen(false)}>LIPS</Link>
+            <Link to="/products?category=EYES" onClick={() => setMenuOpen(false)}>EYES</Link>
+            <Link to="/products?category=SKIN CARE" onClick={() => setMenuOpen(false)}>SKIN CARE</Link>
+            <Link to="/products?category=ACCESSORIES" onClick={() => setMenuOpen(false)}>ACCESSORIES</Link>
+            <Link to="/products?category=FRAGRANCE" onClick={() => setMenuOpen(false)}>FRAGRANCE</Link>
           </div>
         </nav>
       </header>
