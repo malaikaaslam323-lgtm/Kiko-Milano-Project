@@ -31,7 +31,7 @@ export default function Login() {
   };
 
   return (
-    <div style={{ fontFamily: 'Montserrat, sans-serif', padding: '60px 20px', minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="auth-page-wrapper" style={{ fontFamily: 'Montserrat, sans-serif' }}>
       
       {/* Back button */}
       <Link to="/" className="back-btn" style={{ marginBottom: '20px' }}>

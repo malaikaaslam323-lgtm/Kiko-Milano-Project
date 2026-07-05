@@ -618,3 +618,56 @@ exports.seedAdmin = async (req, res) => {
         res.status(500).json({ success: false, message: 'Admin seeding failed', error: err.message });
     }
 };
+
+exports.submitProductReview = async (req, res) => {
+    try {
+        const { rating, comment } = req.body;
+        const productId = req.params.id;
+        const userId = req.user.user_id;
+
+        const Product = require('../models/product');
+        const Review = require('../models/review');
+
+        const ratingVal = parseInt(rating);
+        if (isNaN(ratingVal) || ratingVal < 1 || ratingVal > 5) {
+            return res.status(400).json({ success: false, message: 'Invalid rating. Please select between 1 and 5 stars.' });
+        }
+
+        if (!comment || comment.trim() === '') {
+            return res.status(400).json({ success: false, message: 'Review comment cannot be empty.' });
+        }
+
+        const existing = await Review.findOne({ product: productId, customer: userId });
+        if (existing) {
+            return res.status(400).json({ success: false, message: 'You have already reviewed this product.' });
+        }
+
+        const newReview = new Review({
+            product: productId,
+            customer: userId,
+            rating: ratingVal,
+            comment: comment.trim()
+        });
+        await newReview.save();
+
+        const reviews = await Review.find({ product: productId });
+        const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+        const roundedAvg = Math.round(avg * 10) / 10;
+
+        await Product.findByIdAndUpdate(productId, { 
+            rating: roundedAvg,
+            reviewsCount: reviews.length
+        });
+
+        const populatedReview = await Review.findById(newReview._id).populate('customer', 'name');
+
+        res.status(201).json({ 
+            success: true, 
+            message: 'Thank you! Your review has been submitted successfully.',
+            review: populatedReview
+        });
+    } catch (err) {
+        console.error("API submitProductReview Error:", err);
+        res.status(500).json({ success: false, message: 'Failed to submit review.', error: err.message });
+    }
+};

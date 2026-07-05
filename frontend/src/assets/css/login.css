@@ -10,14 +10,18 @@
 
 body {
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    /* Cleaned up the gradient into a high-end studio lighting effect */
+    background-color: #ffffff;
+}
+
+.auth-page-wrapper {
     background: radial-gradient(circle at top left, #fff1f3 0%, #fce4ec 100%);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 60px 20px;
+    width: 100%;
 }
 
 /* --- Premium Pill Back Button --- */

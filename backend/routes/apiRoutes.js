@@ -24,6 +24,7 @@ router.get('/user/profile', verifyToken, apiController.getUserProfile);
 router.post('/orders', verifyToken, apiController.submitOrder);
 router.get('/user/orders', verifyToken, apiController.getUserOrders); // ✨ Get order history
 router.post('/user/update-profile', verifyToken, apiController.updateUserProfile); // ✨ Update name/password
+router.post('/products/:id/reviews', verifyToken, apiController.submitProductReview); // ✨ Post product review
 
 // --- ADMIN CONTROL PANEL ROUTES (verifyToken protected, admin verified in controllers) ---
 router.get('/admin/dashboard', verifyToken, apiController.getAdminDashboardData);

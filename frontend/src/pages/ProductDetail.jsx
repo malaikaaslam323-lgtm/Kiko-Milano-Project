@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { useAuth } from '../context/AuthContext'; // ✨ Import auth context to verify login state
 import ProductCard from '../Components/ProductCard';
 import API_BASE_URL from '../config';
 
@@ -22,8 +23,62 @@ export default function ProductDetail() {
   const [activeTab, setActiveTab] = useState('description'); // 'description' or 'ingredients'
   const [added, setAdded] = useState(false); // ✨ Visual feedback state for add to bag
 
+  const { user } = useAuth(); // ✨ Destructure user state from context
   const { addToCart, globalDiscount } = useCart();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+
+  // ✨ Write a Review Form States
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    if (!reviewComment.trim()) {
+      setReviewError("Please enter a review comment.");
+      return;
+    }
+    setSubmittingReview(true);
+    setReviewError('');
+    setReviewSuccess('');
+
+    const token = localStorage.getItem('token');
+    axios.post(`${API_BASE_URL}/api/v1/products/${id}/reviews`, {
+      rating: reviewRating,
+      comment: reviewComment
+    }, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then((res) => {
+        setReviewSuccess("Thank you! Your review has been submitted.");
+        setReviewComment('');
+        setReviewRating(5);
+        
+        // Prepend the new review to local reviews list
+        setReviews(prev => [res.data.review, ...prev]);
+        
+        // Update product reviews count and rating locally
+        setProduct(prev => {
+          const currentCount = prev.reviewsCount || 0;
+          const currentRating = prev.rating || 0;
+          const newCount = currentCount + 1;
+          const newRating = ((currentRating * currentCount) + reviewRating) / newCount;
+          return {
+            ...prev,
+            reviewsCount: newCount,
+            rating: Math.round(newRating * 10) / 10
+          };
+        });
+        setSubmittingReview(false);
+      })
+      .catch((err) => {
+        console.error("Failed to submit review:", err);
+        setReviewError(err.response?.data?.message || "Failed to submit review. Try again.");
+        setSubmittingReview(false);
+      });
+  };
 
   // Fetch product specifications, reviews, and related items on mount/ID change
   useEffect(() => {
@@ -268,6 +323,85 @@ export default function ProductDetail() {
             </>
           )}
         </div>
+
+        {/* WRITE A REVIEW FORM (for logged-in users only) */}
+        {user ? (
+          <div className="write-review-container" style={{ background: '#fcfcfc', border: '1px solid #eaeaea', padding: '30px', borderRadius: '8px', marginBottom: '40px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '700', marginBottom: '20px', letterSpacing: '1px', textTransform: 'uppercase', color: '#000' }}>Write a Customer Review</h3>
+            {reviewSuccess && <div style={{ color: '#1a7f37', backgroundColor: '#e6ffe6', padding: '10px 15px', borderRadius: '4px', marginBottom: '15px', fontWeight: '600', fontSize: '13px' }}>{reviewSuccess}</div>}
+            {reviewError && <div style={{ color: '#cf222e', backgroundColor: '#ffe6e6', padding: '10px 15px', borderRadius: '4px', marginBottom: '15px', fontWeight: '600', fontSize: '13px' }}>{reviewError}</div>}
+            
+            <form onSubmit={handleReviewSubmit}>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px', color: '#111' }}>Select Rating *</label>
+                <div style={{ display: 'flex', gap: '5px' }}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button 
+                      key={star} 
+                      type="button" 
+                      onClick={() => setReviewRating(star)}
+                      style={{ 
+                        background: 'none', 
+                        border: 'none', 
+                        fontSize: '28px', 
+                        cursor: 'pointer', 
+                        color: star <= reviewRating ? '#ff1493' : '#ccc',
+                        padding: 0
+                      }}
+                    >
+                      ★
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '20px' }}>
+                <label htmlFor="review-comment-field" style={{ display: 'block', fontSize: '12px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px', color: '#111' }}>Your Comments *</label>
+                <textarea 
+                  id="review-comment-field"
+                  rows="4" 
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  placeholder="Share your experience using this product..."
+                  required
+                  style={{ 
+                    width: '100%', 
+                    padding: '12px 15px', 
+                    borderRadius: '4px', 
+                    border: '1px solid #ddd', 
+                    fontSize: '13px', 
+                    fontFamily: 'inherit',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={submittingReview}
+                style={{ 
+                  backgroundColor: '#000', 
+                  color: '#fff', 
+                  border: 'none', 
+                  padding: '12px 25px', 
+                  borderRadius: '4px', 
+                  fontSize: '11px', 
+                  fontWeight: '700', 
+                  letterSpacing: '1px', 
+                  textTransform: 'uppercase', 
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s'
+                }}
+              >
+                {submittingReview ? 'SUBMITTING...' : 'SUBMIT REVIEW'}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div style={{ backgroundColor: '#fff0f5', color: '#ff1493', padding: '15px 20px', borderRadius: '6px', fontSize: '13px', fontWeight: '600', marginBottom: '40px', borderLeft: '4px solid #ff1493' }}>
+            Interested in reviewing this makeup? <Link to="/login" style={{ textDecoration: 'underline', color: 'inherit', fontWeight: '700' }}>Log in to share your thoughts!</Link>
+          </div>
+        )}
 
         {/* Customer Reviews Feedback Grid */}
         <div className="reviews-list">
