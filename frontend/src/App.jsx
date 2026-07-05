@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import API_BASE_URL from './config';
 import Header from './Components/Header';
@@ -172,35 +172,46 @@ function Home() {
 
 
 
+function AppContent() {
+  const location = useLocation();
+  
+  // Standalone pages that do not show the store header & footer
+  const hideHeaderFooter = ['/login', '/register', '/admin'].includes(location.pathname.toLowerCase());
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      
+      {/* Conditionally Render our global Header */}
+      {!hideHeaderFooter && <Header />}
+
+      {/* Dynamic Main Body Content */}
+      <main style={{ flex: 1, background: hideHeaderFooter ? 'transparent' : '#fafafa' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Catalog />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/register" element={<Register />} /> 
+          <Route path="/dashboard" element={<Dashboard />} /> 
+          <Route path="/my-account" element={<MyAccount />} /> 
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+        </Routes>
+      </main>
+
+      {/* Conditionally Render our Global Luxury Footer */}
+      {!hideHeaderFooter && <Footer />}
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <Router>
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        
-        {/* Render our global Header */}
-        <Header />
-
-        {/* Dynamic Main Body Content */}
-        <main style={{ flex: 1, background: '#fafafa' }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Catalog />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/login" element={<Login />} /> 
-            <Route path="/register" element={<Register />} /> 
-            <Route path="/dashboard" element={<Dashboard />} /> 
-            <Route path="/my-account" element={<MyAccount />} /> 
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/contact-us" element={<ContactUs />} /> {/* ✨ Registered Contact page route */}
-          </Routes>
-        </main>
-
-        {/* Global Luxury Footer */}
-        <Footer />
-      </div>
+      <AppContent />
     </Router>
   );
 }
