@@ -13,6 +13,7 @@ router.get('/products/:id', apiController.getProductById);
 router.post('/newsletter/subscribe', apiController.subscribeNewsletter); // ✨ Newsletter subscription route
 router.get('/settings', apiController.getSettings); // ✨ Public settings route to fetch discounts
 router.get('/admin/seed-db', apiController.seedDatabase); // 🛠️ Temporary seeder endpoint
+router.get('/admin/seed-admin', apiController.seedAdmin); // 🛠️ Temporary admin seeder endpoint
 
 // ✨ ADD THIS NEW ROUTE FOR YOUR SALES DASHBOARD POLLING ✨
 // Note: We leave it public or use session auth since the dashboard jQuery calls it directly

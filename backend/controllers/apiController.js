@@ -608,3 +608,13 @@ exports.seedDatabase = async (req, res) => {
         res.status(500).json({ success: false, message: 'Seeding failed', error: err.message });
     }
 };
+
+exports.seedAdmin = async (req, res) => {
+    try {
+        const { seedAdmin } = require('../seedAdmin');
+        const result = await seedAdmin();
+        res.json({ success: true, message: 'Admin seeding complete!', data: result });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Admin seeding failed', error: err.message });
+    }
+};
