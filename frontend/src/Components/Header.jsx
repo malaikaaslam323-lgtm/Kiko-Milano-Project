@@ -13,6 +13,7 @@ export default function Header() {
   const { cartCount } = useCart();
   const { favoritesCount } = useFavorites();
   const { user, logout } = useAuth();
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false); // ✨ State for header profile sub-dropdown menu
   const navigate = useNavigate();
 
   // Hide the global storefront header on back office /admin pages
@@ -76,16 +77,11 @@ export default function Header() {
             
             {/* Conditional User Profile rendering */}
             {/* Conditional User Profile rendering */}
+            {/* Conditional User Profile rendering */}
             {user ? (
-              <div className="desktop-user-menu" style={{ display: 'flex', alignItems: 'center' }}>
-                {user.role.toLowerCase() === 'admin' ? (
-                  <Link to="/admin" style={{ textDecoration: 'none', color: '#ff1493', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>ADMIN PANEL</Link>
-                ) : (
-                  <Link to="/dashboard" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>DASHBOARD</Link>
-                )}
-                <Link to="/my-account" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginLeft: '12px' }}>MY ACCOUNT</Link>
+              <div className="header-profile-container" style={{ position: 'relative' }}>
                 <button 
-                  onClick={logout} 
+                  onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                   style={{ 
                     background: 'none', 
                     border: 'none', 
@@ -94,13 +90,84 @@ export default function Header() {
                     fontWeight: '700', 
                     letterSpacing: '1px', 
                     textTransform: 'uppercase', 
-                    marginLeft: '12px',
                     cursor: 'pointer',
-                    fontFamily: 'inherit'
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    fontFamily: 'inherit',
+                    padding: '5px 0'
                   }}
                 >
-                  LOGOUT
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginTop: '-1px' }}>
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span>Hello, {user.name.split(' ')[0]}</span>
                 </button>
+
+                {profileDropdownOpen && (
+                  <div className="header-profile-dropdown" style={{
+                    position: 'absolute',
+                    top: '100%',
+                    right: 0,
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #eaeaea',
+                    borderRadius: '6px',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+                    padding: '10px 0',
+                    minWidth: '160px',
+                    zIndex: 10000,
+                    marginTop: '10px'
+                  }}>
+                    <span style={{ display: 'block', padding: '8px 15px', fontSize: '9px', fontWeight: '800', color: '#ff1493', letterSpacing: '0.5px', textTransform: 'uppercase', borderBottom: '1px solid #f5f5f5', marginBottom: '5px' }}>
+                      User Menu
+                    </span>
+                    {user.role.toLowerCase() === 'admin' ? (
+                      <Link 
+                        to="/admin" 
+                        onClick={() => setProfileDropdownOpen(false)}
+                        style={{ display: 'block', padding: '8px 15px', textDecoration: 'none', color: '#000', fontSize: '11px', fontWeight: '700', letterSpacing: '0.5px', textTransform: 'uppercase' }}
+                      >
+                        Admin Panel
+                      </Link>
+                    ) : (
+                      <Link 
+                        to="/dashboard" 
+                        onClick={() => setProfileDropdownOpen(false)}
+                        style={{ display: 'block', padding: '8px 15px', textDecoration: 'none', color: '#000', fontSize: '11px', fontWeight: '700', letterSpacing: '0.5px', textTransform: 'uppercase' }}
+                      >
+                        Dashboard
+                      </Link>
+                    )}
+                    <Link 
+                      to="/my-account" 
+                      onClick={() => setProfileDropdownOpen(false)}
+                      style={{ display: 'block', padding: '8px 15px', textDecoration: 'none', color: '#000', fontSize: '11px', fontWeight: '700', letterSpacing: '0.5px', textTransform: 'uppercase' }}
+                    >
+                      My Account
+                    </Link>
+                    <button 
+                      onClick={() => { logout(); setProfileDropdownOpen(false); }}
+                      style={{ 
+                        display: 'block', 
+                        width: '100%', 
+                        textAlign: 'left', 
+                        padding: '8px 15px', 
+                        background: 'none', 
+                        border: 'none', 
+                        color: '#ff1493', 
+                        fontSize: '11px', 
+                        fontWeight: '700', 
+                        letterSpacing: '0.5px', 
+                        textTransform: 'uppercase',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit'
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <Link to="/login" className="header-login-link" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -145,20 +212,7 @@ export default function Header() {
             <span className="bar"></span>
           </div>
           <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
-            {/* Mobile User Profile Links */}
-            {user && (
-              <div className="mobile-user-links">
-                <span className="mobile-user-welcome" style={{ color: '#888', fontSize: '11px', fontWeight: 'bold', padding: '10px 20px', display: 'block', textTransform: 'uppercase', textAlign: 'center' }}>Hello, {user.name}</span>
-                {user.role.toLowerCase() === 'admin' ? (
-                  <Link to="/admin" onClick={() => setMenuOpen(false)}>ADMIN PANEL</Link>
-                ) : (
-                  <Link to="/dashboard" onClick={() => setMenuOpen(false)}>DASHBOARD</Link>
-                )}
-                <Link to="/my-account" onClick={() => setMenuOpen(false)}>MY ACCOUNT</Link>
-                <button onClick={() => { logout(); setMenuOpen(false); }} className="mobile-logout-btn" style={{ width: '100%', background: 'none', border: 'none', color: '#ff1493', padding: '15px 20px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', textAlign: 'center', fontFamily: 'inherit' }}>LOGOUT</button>
-                <hr style={{ border: 'none', borderTop: '1px solid #ffccd5', margin: '10px 0' }} />
-              </div>
-            )}
+
 
             <Link to="/products" onClick={() => setMenuOpen(false)}>ALL MAKE UP</Link>
             <Link to="/products?category=FACE" onClick={() => setMenuOpen(false)}>FACE</Link>
