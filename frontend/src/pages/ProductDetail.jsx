@@ -22,7 +22,7 @@ export default function ProductDetail() {
   const [activeTab, setActiveTab] = useState('description'); // 'description' or 'ingredients'
   const [added, setAdded] = useState(false); // ✨ Visual feedback state for add to bag
 
-  const { addToCart } = useCart();
+  const { addToCart, globalDiscount } = useCart();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
 
   // Fetch product specifications, reviews, and related items on mount/ID change
