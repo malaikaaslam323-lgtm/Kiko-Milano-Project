@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext'; 
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ export default function HomeProductCard({ product }) {
   const { addToCart, globalDiscount } = useCart();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const liked = isFavorite(product._id);
+  const [added, setAdded] = useState(false); // ✨ Add state hook for visual feedback
 
   const handleFavoriteClick = (e) => {
     e.preventDefault();
@@ -74,12 +75,28 @@ export default function HomeProductCard({ product }) {
 
       <div className="card-action" style={{ marginTop: 'auto', justifyContent: 'center', gap: '15px' }}>
         <button 
-          onClick={() => addToCart(product)}
+          onClick={() => {
+            addToCart(product);
+            setAdded(true);
+            setTimeout(() => setAdded(false), 2000);
+          }}
           className="btn-secondary" 
           disabled={product.stock <= 0}
-          style={{ borderRadius: '7px', padding: '12px 25px', fontWeight: 'bold', cursor: 'pointer', float: 'none', width: 'auto', margin: '0' }}
+          style={{ 
+            borderRadius: '7px', 
+            padding: '12px 25px', 
+            fontWeight: 'bold', 
+            cursor: 'pointer', 
+            float: 'none', 
+            width: 'auto', 
+            margin: '0',
+            backgroundColor: added ? '#00b050' : '',
+            color: added ? '#fff' : '',
+            borderColor: added ? '#00b050' : '',
+            transition: 'all 0.3s ease'
+          }}
         >
-          {product.stock > 0 ? 'ADD TO BAG' : 'OUT OF STOCK'}
+          {product.stock <= 0 ? 'OUT OF STOCK' : added ? '✓ ADDED' : 'ADD TO BAG'}
         </button>
         <div className="like" onClick={handleFavoriteClick}>
           <span className={`like-icon ${liked ? 'liked' : ''}`} style={{ cursor: 'pointer', userSelect: 'none' }}>

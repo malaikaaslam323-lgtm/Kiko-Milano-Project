@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext'; 
 import { Link } from 'react-router-dom';
@@ -6,6 +7,7 @@ export default function ProductCard({ product }) {
   const { addToCart, globalDiscount } = useCart();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
   const liked = isFavorite(product._id);
+  const [added, setAdded] = useState(false); // ✨ Add state hook for visual feedback
 
   const handleFavoriteClick = (e) => {
     e.preventDefault();
@@ -87,11 +89,23 @@ export default function ProductCard({ product }) {
           <button 
             type="button" 
             className="btn-secondary" 
-            style={{ margin: 0, width: 'auto', float: 'none' }}
-            onClick={() => addToCart(product)}
+            style={{ 
+              margin: 0, 
+              width: 'auto', 
+              float: 'none', 
+              backgroundColor: added ? '#00b050' : '',
+              color: added ? '#fff' : '',
+              borderColor: added ? '#00b050' : '',
+              transition: 'all 0.3s ease'
+            }}
+            onClick={() => {
+              addToCart(product);
+              setAdded(true);
+              setTimeout(() => setAdded(false), 2000);
+            }}
             disabled={product.stock <= 0}
           >
-            {product.stock > 0 ? 'ADD TO BAG' : 'OUT OF STOCK'}
+            {product.stock <= 0 ? 'OUT OF STOCK' : added ? '✓ ADDED' : 'ADD TO BAG'}
           </button>
           
           <span 

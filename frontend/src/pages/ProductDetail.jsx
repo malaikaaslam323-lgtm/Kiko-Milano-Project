@@ -20,6 +20,7 @@ export default function ProductDetail() {
   const [selectedShade, setSelectedShade] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description'); // 'description' or 'ingredients'
+  const [added, setAdded] = useState(false); // ✨ Visual feedback state for add to bag
 
   const { addToCart } = useCart();
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
@@ -167,10 +168,18 @@ export default function ProductDetail() {
             <button 
               type="button" 
               className="pdp-add-btn" 
-              onClick={() => addToCart({ ...product, quantity, selectedShade })}
+              onClick={() => {
+                addToCart({ ...product, quantity, selectedShade });
+                setAdded(true);
+                setTimeout(() => setAdded(false), 2000);
+              }}
               disabled={product.stock <= 0}
+              style={{
+                backgroundColor: added ? '#00b050' : '#000',
+                transition: 'background-color 0.3s ease'
+              }}
             >
-              {product.stock > 0 ? 'ADD TO BAG' : 'OUT OF STOCK'}
+              {product.stock <= 0 ? 'OUT OF STOCK' : added ? '✓ ADDED TO BAG!' : 'ADD TO BAG'}
             </button>
 
             {/* Wishlist Heart Toggle */}
