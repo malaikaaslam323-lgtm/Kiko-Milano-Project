@@ -378,8 +378,8 @@ export default function AdminDashboard() {
         )}
       </div>
 
-      {/* Sub Navigation Tabs */}
-      <div className="admin-tabs-container" style={{ maxWidth: '1400px', margin: '10px auto 30px auto', padding: '0 50px', overflowX: 'auto' }}>
+      {/* Sub Navigation Tabs (Desktop only) */}
+      <div className="admin-tabs-container admin-desktop-tabs" style={{ maxWidth: '1400px', margin: '10px auto 30px auto', padding: '0 50px', overflowX: 'auto' }}>
         <div style={{ display: 'flex', gap: '10px', borderBottom: '2px solid #eaeaea', paddingBottom: '15px', minWidth: 'max-content' }}>
           <button onClick={() => { setActiveTab('products'); setIsFormOpen(false); }} className={`admin-nav-btn ${activeTab === 'products' ? 'active' : ''}`} style={{ background: activeTab === 'products' ? '#000' : 'transparent', color: activeTab === 'products' ? '#fff' : '#111', border: '1px solid #ddd', padding: '10px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: '600', fontSize: '11px', letterSpacing: '1px' }}>
             PRODUCTS INVENTORY
@@ -399,6 +399,44 @@ export default function AdminDashboard() {
           <button onClick={() => { setActiveTab('sales'); setIsFormOpen(false); }} className={`admin-nav-btn ${activeTab === 'sales' ? 'active' : ''}`} style={{ background: activeTab === 'sales' ? '#000' : 'transparent', color: activeTab === 'sales' ? '#fff' : '#111', border: '1px solid #ddd', padding: '10px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: '600', fontSize: '11px', letterSpacing: '1px' }}>
             LIVE SALES METRICS
           </button>
+        </div>
+      </div>
+
+      {/* Mobile Selector Navigation (Mobile only) */}
+      <div className="admin-mobile-nav-container" style={{ margin: '10px auto 30px auto', padding: '0 50px', display: 'none' }}>
+        <div style={{ position: 'relative' }}>
+          <label htmlFor="admin-mobile-nav-select" style={{ display: 'block', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px', color: '#ff1493' }}>Navigate Panel</label>
+          <select 
+            id="admin-mobile-nav-select"
+            value={activeTab} 
+            onChange={(e) => { setActiveTab(e.target.value); setIsFormOpen(false); }}
+            style={{ 
+              width: '100%', 
+              padding: '12px 15px', 
+              borderRadius: '4px', 
+              border: '1px solid #ddd', 
+              fontSize: '12px', 
+              fontWeight: '700', 
+              fontFamily: 'inherit',
+              backgroundColor: '#fff',
+              color: '#000',
+              appearance: 'none',
+              backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23111\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'/%3e%3c/svg%3e")',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right 15px center',
+              backgroundSize: '15px',
+              cursor: 'pointer',
+              letterSpacing: '1px',
+              textTransform: 'uppercase'
+            }}
+          >
+            <option value="products">🛍️ PRODUCTS INVENTORY</option>
+            <option value="orders">📦 ORDER MANAGEMENT</option>
+            <option value="customers">👥 REGISTERED CUSTOMERS</option>
+            <option value="newsletter">✉️ NEWSLETTER & CAMPAIGNS</option>
+            <option value="reviews">💬 PRODUCT REVIEWS</option>
+            <option value="sales">📊 LIVE SALES METRICS</option>
+          </select>
         </div>
       </div>
 

@@ -27,6 +27,7 @@
     justify-content: center;
     align-items: center;
     border: 1px solid #eee;
+    overflow: hidden; /* Clips the zoom effect clean */
 }
 
 .pdp-main-image {
@@ -34,6 +35,11 @@
     max-height: 500px;
     object-fit: contain;
     mix-blend-mode: multiply;
+    transition: transform 0.4s ease; /* Smooth hover transition */
+}
+
+.pdp-image-section:hover .pdp-main-image {
+    transform: scale(1.12); /* Clean hardware-accelerated scale */
 }
 
 .pdp-details-section {

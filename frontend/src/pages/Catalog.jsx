@@ -66,7 +66,7 @@ export default function Catalog() {
         </div>
       )}
 
-      <div style={{ padding: '0 50px' }}>
+      <div className="catalog-grid-wrapper" style={{ padding: '0 50px' }}>
         {products.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
             <h3 style={{ fontWeight: '400', color: '#555' }}>

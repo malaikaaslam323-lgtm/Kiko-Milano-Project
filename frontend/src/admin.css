@@ -511,4 +511,11 @@
     .form-container {
         padding: 30px 15px;
     }
+    .admin-desktop-tabs {
+        display: none !important;
+    }
+    .admin-mobile-nav-container {
+        display: block !important;
+        padding: 0 15px !important;
+    }
 }

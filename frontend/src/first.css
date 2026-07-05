@@ -1478,6 +1478,19 @@ footer {
     .login-text-mobile {
         display: inline !important;
     }
+    
+    .catalog-grid-wrapper {
+        padding: 0 15px !important; /* Overrides inline 50px side paddings on mobile */
+    }
+    
+    .kiko-product-card {
+        border: 1px solid #f2f2f2;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        margin-bottom: 5px;
+    }
 }
 
 /* --- SMALL MOBILE PHONES (Max width: 480px) --- */
