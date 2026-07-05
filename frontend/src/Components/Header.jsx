@@ -75,44 +75,43 @@ export default function Header() {
           <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             
             {/* Conditional User Profile rendering */}
-            <div className="desktop-user-menu" style={{ display: 'flex', alignItems: 'center' }}>
-              {user ? (
-                <>
-                  {user.role.toLowerCase() === 'admin' ? (
-                    <Link to="/admin" style={{ textDecoration: 'none', color: '#ff1493', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>ADMIN PANEL</Link>
-                  ) : (
-                    <Link to="/dashboard" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>DASHBOARD</Link>
-                  )}
-                  <Link to="/my-account" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginLeft: '12px' }}>MY ACCOUNT</Link>
-                  <button 
-                    onClick={logout} 
-                    style={{ 
-                      background: 'none', 
-                      border: 'none', 
-                      color: 'black', 
-                      fontSize: '11px', 
-                      fontWeight: '700', 
-                      letterSpacing: '1px', 
-                      textTransform: 'uppercase', 
-                      marginLeft: '12px',
-                      cursor: 'pointer',
-                      fontFamily: 'inherit'
-                    }}
-                  >
-                    LOGOUT
-                  </button>
-                </>
-              ) : (
-                <Link to="/login" style={{ textDecoration: 'none', color: 'black', display: 'flex', alignItems: 'center' }}>
-                  <span className="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                  </span>
-                </Link>
-              )}
-            </div>
+            {/* Conditional User Profile rendering */}
+            {user ? (
+              <div className="desktop-user-menu" style={{ display: 'flex', alignItems: 'center' }}>
+                {user.role.toLowerCase() === 'admin' ? (
+                  <Link to="/admin" style={{ textDecoration: 'none', color: '#ff1493', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>ADMIN PANEL</Link>
+                ) : (
+                  <Link to="/dashboard" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase' }}>DASHBOARD</Link>
+                )}
+                <Link to="/my-account" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginLeft: '12px' }}>MY ACCOUNT</Link>
+                <button 
+                  onClick={logout} 
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    color: 'black', 
+                    fontSize: '11px', 
+                    fontWeight: '700', 
+                    letterSpacing: '1px', 
+                    textTransform: 'uppercase', 
+                    marginLeft: '12px',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit'
+                  }}
+                >
+                  LOGOUT
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="header-login-link" style={{ textDecoration: 'none', color: 'black', fontSize: '11px', fontWeight: '700', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginTop: '-1px' }}>
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span className="login-text-desktop">LOGIN / REGISTER</span>
+                <span className="login-text-mobile">LOGIN</span>
+              </Link>
+            )}
             
             {/* Wishlist/Favorites Icon */}
           <Link to="/favorites" className="cart-icon-container" style={{ textDecoration: 'none', color: 'inherit', position: 'relative', display: 'flex', alignItems: 'center' }}>

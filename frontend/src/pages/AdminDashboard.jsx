@@ -379,7 +379,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Sub Navigation Tabs */}
-      <div style={{ maxWidth: '1400px', margin: '10px auto 30px auto', padding: '0 50px', overflowX: 'auto' }}>
+      <div className="admin-tabs-container" style={{ maxWidth: '1400px', margin: '10px auto 30px auto', padding: '0 50px', overflowX: 'auto' }}>
         <div style={{ display: 'flex', gap: '10px', borderBottom: '2px solid #eaeaea', paddingBottom: '15px', minWidth: 'max-content' }}>
           <button onClick={() => { setActiveTab('products'); setIsFormOpen(false); }} className={`admin-nav-btn ${activeTab === 'products' ? 'active' : ''}`} style={{ background: activeTab === 'products' ? '#000' : 'transparent', color: activeTab === 'products' ? '#fff' : '#111', border: '1px solid #ddd', padding: '10px 15px', borderRadius: '4px', cursor: 'pointer', fontWeight: '600', fontSize: '11px', letterSpacing: '1px' }}>
             PRODUCTS INVENTORY
@@ -403,7 +403,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Notifications Alert messages */}
-      <div style={{ maxWidth: '1400px', margin: '0 auto 20px auto', padding: '0 50px' }}>
+      <div className="admin-alerts-container" style={{ maxWidth: '1400px', margin: '0 auto 20px auto', padding: '0 50px' }}>
         {success && <div className="alert alert-success" style={{ margin: 0, backgroundColor: '#e6ffe6', color: '#1a7f37', padding: '15px', borderRadius: '4px', fontWeight: '600' }}>{success}</div>}
         {error && <div className="alert alert-error" style={{ margin: 0, backgroundColor: '#ffe6e6', color: '#cc0000', padding: '15px', borderRadius: '4px', fontWeight: '600' }}>{error}</div>}
       </div>

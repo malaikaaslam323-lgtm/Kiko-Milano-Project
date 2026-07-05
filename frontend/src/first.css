@@ -190,6 +190,9 @@ color: #ff1493; /* Turns hot pink when pointed at */
 .mobile-user-links {
     display: none;
 }
+.login-text-mobile {
+    display: none;
+}
 /* Hero Banner Section */
 .hero {
     height: 80vh;
@@ -1418,7 +1421,8 @@ footer {
         font-size: 11px;
     }
     .kiko-image-container {
-        padding: 20px 10px; /* Less grey space around the image */
+        height: 160px !important;
+        padding: 10px; /* Less grey space around the image */
         margin-bottom: 10px;
     }
 
@@ -1467,10 +1471,20 @@ footer {
         font-size: 10px;
         letter-spacing: 1px;
     }
+    
+    .login-text-desktop {
+        display: none !important;
+    }
+    .login-text-mobile {
+        display: inline !important;
+    }
 }
 
 /* --- SMALL MOBILE PHONES (Max width: 480px) --- */
 @media (max-width: 480px) {
+    .kiko-image-container {
+        height: 130px !important;
+    }
     .kiko-image-container img {
         height: 130px; /* Prevents the image from looking awkwardly tall on tiny screens */
     }
