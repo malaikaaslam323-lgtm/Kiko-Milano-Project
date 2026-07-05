@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import API_BASE_URL from './config';
 import Header from './Components/Header';
@@ -75,9 +75,9 @@ function Home() {
         </div>
         
         <div style={{ textAlign: 'center' }}>
-          <a href="/products" className="view-all-btn" style={{ textDecoration: 'none' }}>
+          <Link to="/products" className="view-all-btn" style={{ textDecoration: 'none' }}>
             VIEW ALL
-          </a>
+          </Link>
         </div>
       </section>
 
