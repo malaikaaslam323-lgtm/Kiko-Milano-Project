@@ -126,8 +126,25 @@ export default function Catalog() {
         </div>
       )}
 
-      {/* LUXURY FILTER & SORT BUTTON PILL BAR */}
-      <div className="custom-filter-pill-bar">
+      {/* 1. Products Grid Container */}
+      <div className="catalog-grid-wrapper" style={{ padding: '0 50px' }}>
+        {products.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '80px 0' }}>
+            <h3 style={{ fontWeight: '400', color: '#555' }}>
+              No products found matching your criteria.
+            </h3>
+          </div>
+        ) : (
+          <div className="product-grid" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            {products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* 2. LUXURY FILTER & SORT BUTTON PILL BAR (Moved below products grid, above footer/newsletter) */}
+      <div className="custom-filter-pill-bar" style={{ marginTop: '50px' }}>
         <button 
           type="button" 
           className={`pill-btn ${filtersOpen ? 'active' : ''}`}
@@ -262,21 +279,6 @@ export default function Catalog() {
         </div>
       )}
 
-      <div className="catalog-grid-wrapper" style={{ padding: '0 50px' }}>
-        {products.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '80px 0' }}>
-            <h3 style={{ fontWeight: '400', color: '#555' }}>
-              No products found matching your criteria.
-            </h3>
-          </div>
-        ) : (
-          <div className="product-grid" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            {products.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </div>
-        )}
-      </div>
     </section>
   );
 }

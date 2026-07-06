@@ -1211,8 +1211,16 @@ footer {
     
     .header-right { 
         justify-content: flex-end; 
-        gap: 10px; /* Bring icons closer together */
+        gap: 8px !important; /* Bring icons closer together to ensure cart remains on screen */
         font-size: 18px; /* Makes icons smaller to save space */
+    }
+    
+    .profile-name-text {
+        display: none !important; /* Hide user name text on mobile */
+    }
+    
+    .login-text-mobile {
+        display: none !important; /* Hide "LOGIN" text label on mobile */
     }
     
     .search-container {
