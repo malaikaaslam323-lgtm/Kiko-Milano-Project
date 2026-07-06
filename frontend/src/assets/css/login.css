@@ -206,11 +206,6 @@ body {
         margin-bottom: 30px;
         align-self: flex-start;
     }
-    body {
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 40px;
-    }
     .auth-card {
         padding: 40px 25px;
     }

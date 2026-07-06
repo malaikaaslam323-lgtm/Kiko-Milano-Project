@@ -1426,6 +1426,11 @@ footer {
         padding: 10px;
         font-size: 11px;
     }
+    .kiko-filter-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 11px;
+    }
     .kiko-image-container {
         height: 200px !important;
         padding: 5px !important; /* Less space around to let product scale larger */
