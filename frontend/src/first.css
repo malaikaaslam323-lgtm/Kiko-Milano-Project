@@ -7,10 +7,14 @@
     
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     background-color: #ffffff;
     color: #000000;
-    min-width: 360px;
 }
 
 a {
@@ -250,6 +254,7 @@ color: #ff1493; /* Turns hot pink when pointed at */
 
 .product-card {
     text-align: left;
+    position: relative; /* Fixed: anchors absolute badges inside the card */
 }
 
 .product-card img {
@@ -1289,13 +1294,14 @@ footer {
     }
     .deliver-container {
         display: flex;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        gap: 5px;
-        
+        flex-direction: column !important;
+        align-items: center;
+        gap: 25px !important;
     }
     .deliver-item {
         padding: 0 5px;
+        width: 100%;
+        max-width: 300px;
     }
     .deliver-item img {
         width: 30px; /* Shrink the icon */
@@ -1421,13 +1427,16 @@ footer {
         font-size: 11px;
     }
     .kiko-image-container {
-        height: 160px !important;
-        padding: 10px; /* Less grey space around the image */
+        height: 200px !important;
+        padding: 5px !important; /* Less space around to let product scale larger */
         margin-bottom: 10px;
     }
 
     .kiko-image-container img {
-        height: 160px; /* Much shorter so the 2-column grid doesn't look stretched */
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
     }
 
     /* Shrink the floating icons so they don't cover the makeup */
@@ -1496,10 +1505,14 @@ footer {
 /* --- SMALL MOBILE PHONES (Max width: 480px) --- */
 @media (max-width: 480px) {
     .kiko-image-container {
-        height: 130px !important;
+        height: 180px !important;
+        padding: 5px !important;
     }
     .kiko-image-container img {
-        height: 130px; /* Prevents the image from looking awkwardly tall on tiny screens */
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
     }
     
     .kiko-title {
