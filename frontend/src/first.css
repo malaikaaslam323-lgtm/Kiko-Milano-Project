@@ -1524,3 +1524,240 @@ footer {
         font-size: 10px; /* Extra small text to prevent weird word wrapping */
     }
 }
+
+/* --- LUXURY PILL FILTER BAR STYLING (MATCHING SCREENSHOTS) --- */
+.custom-filter-pill-bar {
+    display: flex;
+    align-items: center;
+    background-color: #fff8f9;
+    border: 1px solid #fbe4e8;
+    border-radius: 30px;
+    padding: 0;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto 30px auto;
+    box-shadow: 0 4px 15px rgba(255, 20, 147, 0.04);
+    overflow: hidden;
+}
+
+.pill-btn {
+    background: none;
+    border: none;
+    padding: 15px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #111111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    flex: 1;
+}
+
+.pill-btn:hover, .pill-btn.active {
+    color: #ff1493;
+    background-color: #fff1f3;
+}
+
+.pill-icon {
+    margin-top: -1px;
+}
+
+.pill-divider {
+    width: 1px;
+    height: 25px;
+    background-color: #fbe4e8;
+}
+
+/* Collapsible Filter Panel */
+.custom-filter-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 30px;
+    max-width: 750px;
+    margin: -15px auto 30px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f5f5f5;
+    padding-bottom: 10px;
+}
+
+.column-header span {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #111;
+    text-transform: uppercase;
+}
+
+.clear-link {
+    background: none;
+    border: none;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.clear-link:hover {
+    color: #ff1493;
+}
+
+.rating-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rating-option-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+}
+
+.rating-option-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #ff1493;
+    cursor: pointer;
+}
+
+.stars-wrapper {
+    color: #ddd;
+    font-size: 13px;
+    display: flex;
+    gap: 2px;
+}
+
+.star-item.filled {
+    color: #ffb400;
+}
+
+.price-range-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.price-filter-input {
+    width: 80px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    background-color: #fafafa;
+}
+
+.price-filter-input:focus {
+    border-color: #000;
+    background-color: #fff;
+}
+
+.price-to-text {
+    font-size: 12px;
+    color: #555;
+}
+
+.price-go-btn {
+    background-color: #222;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+}
+
+.price-go-btn:hover {
+    background-color: #000;
+}
+
+/* Collapsible Sort Panel */
+.custom-sort-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 10px 0;
+    max-width: 250px;
+    margin: -15px auto 30px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    animation: slideDown 0.3s ease;
+}
+
+.sort-option-btn {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    text-align: left;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.sort-option-btn:hover, .sort-option-btn.active {
+    background-color: #fff5f7;
+    color: #ff1493;
+    font-weight: 600;
+}
+
+.check-mark {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .custom-filter-panel {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin: -15px 15px 30px 15px;
+    }
+    .custom-sort-panel {
+        margin: -15px 15px 30px 15px;
+        max-width: none;
+    }
+    .price-filter-input {
+        flex: 1;
+    }
+}
