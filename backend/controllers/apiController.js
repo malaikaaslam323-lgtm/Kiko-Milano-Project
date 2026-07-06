@@ -150,7 +150,7 @@ exports.getUserProfile = async (req, res) => {
 
 exports.submitOrder = async (req, res) => {
     try {
-        const { name, address, city, postalCode, phone, paymentMethod, items } = req.body;
+        const { name, address, city, postalCode, phone, paymentMethod, items, couponCode } = req.body;
         if (!name || !address || !city || !postalCode || !phone || !paymentMethod || !items || items.length === 0) {
             return res.status(400).json({ success: false, message: 'All delivery and cart fields are required.' });
         }
@@ -193,8 +193,17 @@ exports.submitOrder = async (req, res) => {
             });
         }
 
+        // Calculate coupon code discount if applicable
+        let couponDiscount = 0;
+        if (couponCode) {
+            const upperCode = couponCode.toUpperCase();
+            if (upperCode === 'KIKO20') couponDiscount = Math.round(subtotal * 0.20);
+            else if (upperCode === 'WELCOME10') couponDiscount = Math.round(subtotal * 0.10);
+            else if (upperCode === 'GLAM50') couponDiscount = Math.round(subtotal * 0.50);
+        }
+
         const shipping = subtotal > 50000 ? 0 : 250;
-        const totalAmount = subtotal + shipping;
+        const totalAmount = subtotal + shipping - couponDiscount;
 
         // 3. Save Order to Database
         const order = new Order({

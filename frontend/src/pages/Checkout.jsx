@@ -38,11 +38,50 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Coupon Promo Code States
+  const [couponCode, setCouponCode] = useState('');
+  const [activeCoupon, setActiveCoupon] = useState(null); // { code: 'KIKO20', discountPercent: 20 }
+  const [couponError, setCouponError] = useState('');
+  const [couponSuccess, setCouponSuccess] = useState('');
+
   // Pricing Calculations
   const getItemPrice = (item) => globalDiscount > 0 ? Math.round(item.price * (1 - globalDiscount / 100)) : item.price;
   const subtotal = cartItems.reduce((total, item) => total + (getItemPrice(item) * item.quantity), 0);
+  
+  // Calculate discount from applied coupon code
+  const couponDiscount = activeCoupon ? Math.round(subtotal * (activeCoupon.discountPercent / 100)) : 0;
+  
   const shipping = subtotal > 50000 ? 0 : 250;
-  const totalAmount = subtotal + shipping;
+  const finalTotalAmount = subtotal + shipping - couponDiscount;
+
+  const handleApplyCoupon = (e) => {
+    e.preventDefault();
+    setCouponError('');
+    setCouponSuccess('');
+    
+    if (!couponCode.trim()) {
+      setCouponError('Please enter a coupon code.');
+      return;
+    }
+
+    const upperCode = couponCode.toUpperCase().trim();
+    let discountPct = 0;
+
+    // Simulated active coupons
+    if (upperCode === 'KIKO20') discountPct = 20;
+    else if (upperCode === 'WELCOME10') discountPct = 10;
+    else if (upperCode === 'GLAM50') discountPct = 50;
+
+    if (discountPct > 0) {
+      setActiveCoupon({ code: upperCode, discountPercent: discountPct });
+      setCouponSuccess(`Coupon code "${upperCode}" applied! ${discountPct}% OFF.`);
+      setCouponError('');
+    } else {
+      setActiveCoupon(null);
+      setCouponError('Invalid code. Try KIKO20, WELCOME10, or GLAM50.');
+      setCouponSuccess('');
+    }
+  };
 
   if (authLoading || !user) {
     return <div style={{ textAlign: 'center', padding: '100px' }}><h3>Verifying account...</h3></div>;
@@ -74,6 +113,7 @@ export default function Checkout() {
         postalCode,
         phone,
         paymentMethod,
+        couponCode: activeCoupon ? activeCoupon.code : '', // Send promo code to database
         items: cartItems.map(item => ({
           _id: item._id,
           quantity: item.quantity,
@@ -285,10 +325,61 @@ export default function Checkout() {
             ))}
           </div>
 
+          {/* Coupon Input Area */}
+          <div style={{ borderBottom: '1px solid #eee', paddingBottom: '20px', marginBottom: '20px' }}>
+            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px', color: '#111' }}>
+              Have a Promo Code?
+            </div>
+            <form onSubmit={handleApplyCoupon} style={{ display: 'flex', gap: '8px' }}>
+              <input 
+                type="text" 
+                placeholder="Enter Code (e.g. KIKO20)" 
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: '10px 12px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  fontFamily: 'inherit',
+                  textTransform: 'uppercase',
+                  outline: 'none',
+                  backgroundColor: '#fafafa'
+                }}
+              />
+              <button 
+                type="submit"
+                style={{
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '10px 15px',
+                  fontSize: '11px',
+                  fontWeight: '750',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  letterSpacing: '1px'
+                }}
+              >
+                APPLY
+              </button>
+            </form>
+            {couponError && <div style={{ color: '#cc0000', fontSize: '11px', fontWeight: '600', marginTop: '8px' }}>{couponError}</div>}
+            {couponSuccess && <div style={{ color: '#006600', fontSize: '11px', fontWeight: '600', marginTop: '8px' }}>{couponSuccess}</div>}
+          </div>
+
           <div className="summary-row" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '14px' }}>
             <span>Subtotal</span>
             <span>PKR {subtotal.toLocaleString()}</span>
           </div>
+
+          {activeCoupon && (
+            <div className="summary-row" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '14px', color: '#ff1493', fontWeight: '700' }}>
+              <span>Discount ({activeCoupon.code})</span>
+              <span>- PKR {couponDiscount.toLocaleString()}</span>
+            </div>
+          )}
 
           <div className="summary-row" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '14px' }}>
             <span>Shipping</span>
@@ -297,7 +388,7 @@ export default function Checkout() {
 
           <div className="summary-row total-row" style={{ display: 'flex', justifyContent: 'space-between', borderTop: '2px solid #111', paddingTop: '15px', marginTop: '15px', fontSize: '18px', fontWeight: '800' }}>
             <span>Total</span>
-            <span style={{ color: '#ff1493' }}>PKR {totalAmount.toLocaleString()}</span>
+            <span style={{ color: '#ff1493' }}>PKR {finalTotalAmount.toLocaleString()}</span>
           </div>
         </div>
 
