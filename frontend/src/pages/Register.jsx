@@ -12,12 +12,19 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
     setLoading(true);
+
+    // Password validation check (requires at least one capital letter)
+    const hasUppercase = /[A-Z]/.test(password);
+    if (!hasUppercase) {
+      setError('Password must contain at least one capital letter (A-Z).');
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await axios.post(`${API_BASE_URL}/api/v1/auth/register`, { name, email, password });

@@ -228,6 +228,12 @@ exports.register = async (req, res) => {
             return res.status(400).json({ success: false, message: 'All fields are required.' });
         }
 
+        // Password validation: must contain at least one capital letter (A-Z)
+        const hasUppercase = /[A-Z]/.test(password);
+        if (!hasUppercase) {
+            return res.status(400).json({ success: false, message: 'Password must contain at least one capital letter (A-Z).' });
+        }
+
         let existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ success: false, message: 'That email is already registered.' });

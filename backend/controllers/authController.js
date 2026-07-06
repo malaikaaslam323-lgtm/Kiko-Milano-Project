@@ -9,6 +9,18 @@ exports.getRegister = (req, res) => {
 exports.postRegister = async (req, res) => {
     try {
         const { name, email, password } = req.body;
+        if (!name || !email || !password) {
+            req.flash('error_msg', 'All fields are required.');
+            return res.redirect('/register');
+        }
+
+        // Password validation: must contain at least one capital letter (A-Z)
+        const hasUppercase = /[A-Z]/.test(password);
+        if (!hasUppercase) {
+            req.flash('error_msg', 'Password must contain at least one capital letter (A-Z).');
+            return res.redirect('/register');
+        }
+
         let existingUser = await User.findOne({ email: email });
         
         if (existingUser) {
