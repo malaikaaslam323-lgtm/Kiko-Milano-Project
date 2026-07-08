@@ -75,7 +75,16 @@ exports.getProducts = async (req, res) => {
                 { category: { $regex: req.query.search, $options: 'i' } }
             ];
         }
-        if (req.query.category && req.query.category !== 'All') query.category = req.query.category;
+        if (req.query.category && req.query.category !== 'All') {
+            const catValue = req.query.category.trim();
+            // Match any spacing/casing variation of SKIN CARE (e.g. skin care, skincare, SKINCARE)
+            if (/^skin\s*care$/i.test(catValue) || /^skincare$/i.test(catValue)) {
+                query.category = { $regex: /^skin\s+care$/i };
+            } else {
+                // Match other categories case-insensitively
+                query.category = { $regex: new RegExp('^' + catValue.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$', 'i') };
+            }
+        }
         if (req.query.minPrice || req.query.maxPrice) {
             query.price = {};
             if (req.query.minPrice) query.price.$gte = Number(req.query.minPrice);
